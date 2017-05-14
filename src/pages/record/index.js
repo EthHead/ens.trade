@@ -215,7 +215,8 @@ class HomePage extends React.Component {
     if (this.props.record.entry.deedAddress === zero) {
       return (
         <div>
-          This name has not been registered with the ENS. <a href={`https://registrar.ens.domains/#${this.state.name}`} target='_blank'>Register it here</a>
+          This name has not been registered with the ENS. <a href={`https://registrar.
+            /#${this.state.name}`} target='_blank'>Register it here</a>
           {Ethereum.getNetwork() === 'kovan' ?
             <div className={s.dummyRegister}>
               You are on the kovan network.
@@ -273,7 +274,7 @@ class HomePage extends React.Component {
         <h4>This name is not for sale</h4>
         <Button
           text="Transfer"
-          sideText="Transfer this name to the ens.trade smart contract to list it for sale. You can reclaim it anytime."
+          sideText="Transfer this name to the ens.trade smart contract to list it for sale. It cannot be bought until you set your minimum sale price, and you can reclaim it anytime."
           onClick={this.transferToENSTrade}
           active={this.isMine(this.props.record.owner)}
           tip="You must own this name to transfer it"

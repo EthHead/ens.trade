@@ -23,7 +23,7 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    document.title = "ens.domains - Buy and sell ethereum names";
+    document.title = "ens.trade - Buy and sell ethereum names";
     //if (!Ethereum.initalized) {
     window.actions = actions;
     //}
