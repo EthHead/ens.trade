@@ -124,7 +124,7 @@ class HomePage extends React.Component {
             </tr>
           : null}
           {this.state.sortedRecords.filter(
-            record => `${record.name}.eth`.includes(this.state.filter),
+            record => `${record.name}.eth`.includes(this.state.filter.split('.')[0]),
           ).map(record =>
             <tr key={record.deedAddress}>
               <td><Link to={`/record/${record.name}`}>{record.name}.eth</Link></td>
@@ -134,7 +134,7 @@ class HomePage extends React.Component {
           )}
           {this.showDummyName() ?
             <tr>
-              <td><Link to={`/record/${this.state.filter}`}>{this.state.filter}.eth</Link></td>
+              <td><Link to={`/record/${this.state.filter.split('.')[0]}`}>{this.state.filter.split('.')[0]}.eth</Link></td>
               <td>Not for sale</td>
               <td />
             </tr>

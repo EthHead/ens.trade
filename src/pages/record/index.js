@@ -224,7 +224,7 @@ class HomePage extends React.Component {
             /#${this.state.name}`} target='_blank'>Register it here</a>
           {Ethereum.getNetwork() === 'kovan' ?
             <div className={s.dummyRegister}>
-              You are on the kovan network.
+              You are on the kovan testnet.
               <Button
                 text="Register this name for free with the ens.trade kovan dummy registrar"
                 onClick={this.dummyRegister}
