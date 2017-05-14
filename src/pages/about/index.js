@@ -32,6 +32,10 @@ class About extends React.Component {
         <p>
         Yes! Simply copy the transaction data into compatible wallet software such as <a href="https://www.myetherwallet.com/#send-transaction" target="_blank" rel="noopener noreferrer">MyEtherWallet</a>
         </p>
+        <h4>What if ens.trade disappears or turns evil?</h4>
+        <p>
+        All trade data is stored on the Ethereum blockchain. The only thing that the ens.trade webserver serves is the dapp, which can be setup and accessed anytime <a href="https://github.com/EthHead/ens.trade" target="_blank" rel="noopener noreferrer">locally</a>.
+        </p>
         <h4>Where can I view the source?</h4>
         <p>
         All of the source code is available on our <a href="https://github.com/EthHead/ens.trade" target="_blank" rel="noopener noreferrer">GitHub</a>
