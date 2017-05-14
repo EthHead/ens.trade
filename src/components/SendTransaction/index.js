@@ -74,7 +74,7 @@ class SendTransaction extends React.Component {
       return (
         <Popup active={this.props.active} onClose={this.hidePopup}>
           <h4 className={s.error}>There was an error processing your transaction</h4>
-          <div className={s.txid}>{this.state.error.toString()}</div>
+          <div className={s.txid}>{this.state.error.toString()}<br />Are you sending from the right ethereum address?</div>
         </Popup>
       );
     } else if (this.state.txid) {

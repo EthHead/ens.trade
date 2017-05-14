@@ -37,7 +37,8 @@ class Layout extends React.Component {
       <div className="mdl-layout mdl-js-layout" ref={node => (this.root = node)}>
         <div className="mdl-layout__inner-container">
           <Header />
-          <div className={s.alpha}>ens.trade is currently in alpha. It is only live on the kovan testnet</div>
+          <div className={s.alpha}>ens.trade is currently in alpha. It is only live on the kovan testnet.<br />
+          Found a bug? We are paying a <a href="https://github.com/EthHead/ens.trade/issues" target="_blank" rel="noopener noreferrer">bug bounty!</a></div>
           <main className="mdl-layout__content">
             <div {...props} className={cx(s.content, this.props.className)} />
             <Footer />

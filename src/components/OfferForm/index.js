@@ -64,6 +64,7 @@ class OfferForm extends React.Component {
         <input id="offerValue" type="number" step="any" value={this.state.offerValue} onChange={this.changeValue} />
         <label htmlFor="offerMessage">Message (optional)</label>
         <input id="offerMessage" type="text" value={this.state.offerMessage} onChange={this.changeMessage} />
+        <div>Making an offer will store the ether in the ens.trade smart contract. If your offer is above the sale price, or the seller accepts, the ENS name will be instantly transferred to you</div>
         <Button text="Make Offer" type="submit" onClick={this.onSubmit} />
       </form>
     );
