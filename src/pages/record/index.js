@@ -279,7 +279,7 @@ class HomePage extends React.Component {
         <h4>This name is not for sale</h4>
         <Button
           text="Transfer"
-          sideText="Transfer this name to the ens.trade smart contract to list it for sale. It cannot be bought until you set your minimum sale price, and you can reclaim it anytime."
+          sideText="Transfer this name to the ens.trade smart contract to list it for sale. It cannot be bought until you set your minimum sale price. You can reclaim it anytime."
           onClick={this.transferToENSTrade}
           active={this.isMine(this.props.record.owner)}
           tip="You must own this name to transfer it"

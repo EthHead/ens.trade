@@ -102,7 +102,7 @@ class SendTransaction extends React.Component {
           <div><input type="text" readOnly className={s.input} value={this.props.popup.data.value}></input></div>
           <div className={s.label}>Gas <CopyButton data={this.props.popup.data.gas} /></div>
           <div><input type="text" className={s.input} value={this.state.gas} onChange={this.changeGas}></input></div>
-          <div className={s.label}>Data (Important) <CopyButton data={this.props.popup.data.data} /></div>
+          <div className={s.label}>Data <CopyButton data={this.props.popup.data.data} /></div>
           <div><textarea className={s.input} rows="7" readOnly value={this.props.popup.data.data}></textarea></div>
           <div className={s.center}>
             <div>Copy the above values to your ethereum wallet,<b/>or send via Web3</div>
