@@ -6,6 +6,14 @@ function Footer() {
     <footer className="mdl-mini-footer">
       <div className="mdl-mini-footer__left-section">
         <div className="mdl-logo">ens.trade</div>
+        <ul className="mdl-mini-footer__link-list">
+          <li><Link to="/about">About</Link></li>
+          <li><a href="https://github.com/EthHead/ens.trade/blob/master/public/contracts/ENSTrade.sol" target="_blank" rel="noopener noreferrer">Smart Contract</a></li>
+          <li><a href="https://www.reddit.com/message/compose/?to=eth-head" target="_blank" rel="noopener noreferrer">Contact</a></li>
+        </ul>
+      </div>
+      <div className="mdl-mini-footer__left-section">
+        <div className="mdl-logo">ens.trade</div>
       </div>
       <div className="mdl-mini-footer__right-section">
         <ul className="mdl-mini-footer__link-list">
