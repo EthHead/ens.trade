@@ -288,6 +288,13 @@ class HomePage extends React.Component {
   }
 
   render() {
+    if (!this.props.ethereum.fetched) {
+      return (
+        <Layout className={s.content}>
+          Initializing ...
+        </Layout>
+      );
+    }
     if (this.props.record.fetching) {
       return (
         <Layout className={s.content}>

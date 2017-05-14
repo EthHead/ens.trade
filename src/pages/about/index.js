@@ -22,7 +22,7 @@ class About extends React.Component {
         <p>
         Listing: Free<br />
         Creating offers: Free<br />
-        Accepting offers: 1% of accepted value<br />
+        Accepting offers: Free, then 1% once alpha is over<br />
         </p>
         <h4>I&#39;m scared, can I test it out first?</h4>
         <p>
