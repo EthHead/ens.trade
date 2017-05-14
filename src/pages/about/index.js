@@ -28,9 +28,9 @@ class About extends React.Component {
         <p>
         <b>ens.trade</b> is available on the kovan testnet. You can access it using the <a href="https://metamask.io/" target="_blank" rel="noopener noreferrer">metamask chrome plugin</a>
         </p>
-        <h4>Can I use my ledger nano S or trezor with it?</h4>
+        <h4>Can I use my Ledger Nano S or Trezor with it?</h4>
         <p>
-        Yes! Simply copy the transaction data into compatible wallet software such as <a href="https://www.myetherwallet.com/" target="_blank" rel="noopener noreferrer">MyEtherWallet</a>
+        Yes! Simply copy the transaction data into compatible wallet software such as <a href="https://www.myetherwallet.com/#send-transaction" target="_blank" rel="noopener noreferrer">MyEtherWallet</a>
         </p>
         <h4>Where can I view the source?</h4>
         <p>

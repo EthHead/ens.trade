@@ -18,7 +18,6 @@ contract Deed {
     function destroyDeed();
 }
 
-// TODO: Events
 contract ENSTrade {
     struct Record {
         string name;
@@ -65,6 +64,7 @@ contract ENSTrade {
     address public lastRecord;
 
     modifier onlyOwner(address _deedAddress) {
+        // Check who owns the using the previousOwner() function, as ens.trade currently own it.
         Deed d = Deed(_deedAddress);
         if (d.owner() != address(this)) throw;
         if (d.previousOwner() != msg.sender) throw;
@@ -96,12 +96,10 @@ contract ENSTrade {
     }
 
     function newListing(string _name, uint _buyPrice, string _message) {
-        // TODO: Somehow check that _name is correct!
-        // Maybe this:
+        // Hashes the name and checks that the sender previously owned it
         Registrar registrar = Registrar(registrarAddress);
         bytes32 hash = sha3(_name);
         var (,_deedAddress,,,) = registrar.entries(hash);
-        // Custom only owner since we aren't asking for deed name
         Deed d = Deed(_deedAddress);
         if (d.owner() != address(this)) throw;
         if (d.previousOwner() != msg.sender) throw;
@@ -156,6 +154,7 @@ contract ENSTrade {
         if (o.value > 0) throw; // Offer exists
         Record r = records[_deedAddress];
         if (msg.value >= r.buyPrice && r.buyPrice != 0) {
+            // Offer is above asking price, finish trade
             transferRecord(_deedAddress, msg.sender, msg.value);
             return;
         }
