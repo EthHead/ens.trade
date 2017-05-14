@@ -28,7 +28,7 @@ class Header extends React.Component {
 
   onChange = (e) => {
     this.setState({
-      search: e.target.value,
+      search: e.target.value.toLowerCase(),
     });
   }
 

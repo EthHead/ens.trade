@@ -23,7 +23,7 @@ class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.route.params.name,
+      name: this.props.route.params.name.toLowerCase(),
       buyPrice: 0,
       message: '',
     };
@@ -31,22 +31,22 @@ class HomePage extends React.Component {
 
   componentDidMount() {
     if (!this.props.ethereum.fetched) return;
-    this.props.dispatch(actions.ethereum.getName(this.props.route.params.name));
+    this.props.dispatch(actions.ethereum.getName(this.props.route.params.name.toLowerCase()));
   }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.ethereum.fetched) return;
-    /*if (this.state.name !== nextProps.route.params.name) {
-      this.setState({ name: nextProps.route.params.name });
-      nextProps.dispatch(actions.ethereum.getName(nextProps.route.params.name));
-    }*/
+    if (this.state.name !== nextProps.route.params.name.toLowerCase()) {
+      this.setState({ name: nextProps.route.params.name.toLowerCase() });
+      nextProps.dispatch(actions.ethereum.getName(nextProps.route.params.name.toLowerCase()));
+    }
     if (nextProps.record.fetched) {
       if (nextProps.offers.fetched || nextProps.offers.fetching || nextProps.offers.fetchingError) return;
       nextProps.dispatch(actions.ethereum.getOffers(nextProps.record.entry.deedAddress));
       return;
     }
     if (nextProps.record.fetching || nextProps.record.fetchingError ) return;
-    nextProps.dispatch(actions.ethereum.getName(nextProps.route.params.name));
+    nextProps.dispatch(actions.ethereum.getName(nextProps.route.params.name.toLowerCase()));
   }
 
   transferToENSTrade = () => {
@@ -55,7 +55,7 @@ class HomePage extends React.Component {
       value: 0,
       gas: 200000,
       data: ethereumjsAbi.simpleEncode('transfer(bytes32,address)',
-        window.web3.sha3(this.props.route.params.name),
+        window.web3.sha3(this.props.route.params.name.toLowerCase()),
         ENSTrade.getAddress(),
       ).toString('hex') }));
     // this.props.dispatch(actions.ethereum.transferToENSTrade(this.props.route.params.name));
@@ -68,7 +68,7 @@ class HomePage extends React.Component {
       gas: 200000,
       data: ethereumjsAbi.simpleEncode(
         'newListing(string,uint256,string)',
-        this.props.route.params.name,
+        this.props.route.params.name.toLowerCase(),
         window.web3.toWei(this.state.buyPrice).toString(),
         this.state.message,
       ).toString('hex') }));
@@ -289,7 +289,7 @@ class HomePage extends React.Component {
   }
 
   refresh = () => {
-    this.props.dispatch(actions.ethereum.getName(this.props.route.params.name));
+    this.props.dispatch(actions.ethereum.getName(this.props.route.params.name.toLowerCase()));
   }
 
   render() {

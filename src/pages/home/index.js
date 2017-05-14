@@ -71,7 +71,7 @@ class HomePage extends React.Component {
 
   filterChange = (e) => {
     this.setState({
-      filter: e.target.value,
+      filter: e.target.value.toLowerCase(),
     });
   }
 
