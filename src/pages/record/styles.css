@@ -9,6 +9,30 @@
   z-index:5;
 }
 
+.title {
+  display: inline-block;
+}
+
+.refresh {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.refreshImg {
+  cursor: pointer;
+  margin-left: 10px;
+  width: 20px;
+  position: relative;
+  top: -2px;
+}
+
+.dummyRegister {
+  background-color: #ffe1a5;
+  margin: 15px;
+  padding: 15px;
+  font-weight: bold;
+}
+
 .listBg {
   background-color: #f7f7f7;
   padding: 10px;

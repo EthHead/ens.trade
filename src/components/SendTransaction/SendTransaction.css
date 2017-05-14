@@ -9,7 +9,19 @@
   margin-left: 8px;
 }
 
+.txid {
+  word-wrap: break-word;
+}
+
+.spaceDown {
+  margin-top: 20px;
+}
+
 .center {
   margin-top: 10px;
   text-align: center;
+}
+
+.error {
+  color: red;
 }

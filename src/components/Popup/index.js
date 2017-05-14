@@ -1,13 +1,11 @@
 import React from 'react';
 import s from './Popup.css';
-import Button from '../../components/Button';
 
 class Popup extends React.Component {
   static propTypes = {
     active: React.PropTypes.bool,
     onClose: React.PropTypes.func,
     confirmText: React.PropTypes.string,
-    children: React.PropTypes.object, //TODO: Fix this error
   };
   constructor(props) {
     super(props);

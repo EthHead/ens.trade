@@ -8,6 +8,8 @@ import Popup from '../Popup';
 import Button from '../Button';
 import actions from '../../actions';
 
+const zero = '0x0000000000000000000000000000000000000000';
+
 class SendTransaction extends React.Component {
   static propTypes = {
     active: React.PropTypes.bool,
@@ -19,6 +21,14 @@ class SendTransaction extends React.Component {
     super(props);
     this.state = {
       gas: 200000,
+      error: null,
+      txid: null,
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.popup.data) {
+      this.setState({ gas: nextProps.popup.data.gas });
     }
   }
 
@@ -28,10 +38,17 @@ class SendTransaction extends React.Component {
   }
 
   hidePopup = () => {
+    this.setState({ error: '', txid: '' });
     this.props.dispatch(actions.ethereum.hidePopup());
   }
 
   sendTransaction = () => {
+    if (!window.web3.eth.accounts[0] || window.web3.eth.accounts[0] === zero) {
+      const error = 'Invalid from address. If you are using Metamask/Mist, check that you are logged in correctly';
+      this.setState({ error })
+      console.error(error);
+      return;
+    }
     const data = {
       to: this.props.popup.data.to,
       from: window.web3.eth.accounts[0],
@@ -40,7 +57,9 @@ class SendTransaction extends React.Component {
       data: this.props.popup.data.data,
     };
     console.log(data);
-    window.web3.eth.sendTransaction(data, (a, b) => console.log(a, b))
+    window.web3.eth.sendTransaction(data, (error, txid) => {
+      this.setState({ error, txid });
+    })
   }
 
   copy = data => () => { copy(data); };
@@ -51,6 +70,28 @@ class SendTransaction extends React.Component {
 
   render() {
     if (!this.props.active) return null;
+    if (this.state.error) {
+      return (
+        <Popup active={this.props.active} onClose={this.hidePopup}>
+          <h4 className={s.error}>There was an error processing your transaction</h4>
+          <div className={s.txid}>{this.state.error.toString()}</div>
+        </Popup>
+      );
+    } else if (this.state.txid) {
+      return (
+        <Popup active={this.props.active} onClose={this.hidePopup}>
+          <h4>Your transaction was sent!</h4>
+          <div className={s.txid}>
+            <a
+              href={`https://${Ethereum.getNetwork() === 'mainnet' ? '' : 'kovan'}.etherscan.io/tx/${this.state.txid}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >{this.state.txid}</a>
+          </div>
+          <div className={s.spaceDown}>Please wait for it to be mined and then refresh</div>
+        </Popup>
+      );
+    }
     return (
       <Popup active={this.props.active} onClose={this.hidePopup}>
         <div>

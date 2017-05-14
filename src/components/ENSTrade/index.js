@@ -13,7 +13,7 @@ const abi = [{"constant":true,"inputs":[],"name":"registrarAddress","outputs":[{
 
 let address;
 const mainnetAddress = '';
-const kovanAddress = '0xb99b6ef29597fa91c66542c55f9195fac15ab9cc';
+const kovanAddress = '0xe6ec0baea762f4fbce6c3e2c6c17c62091a86c09';
 
 let contract;
 

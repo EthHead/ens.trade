@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ethereumjsAbi from 'ethereumjs-abi';
+import ReactTooltip from 'react-tooltip';
 import Layout from '../../components/Layout';
 import s from './styles.css';
 import Button from '../../components/Button';
@@ -100,10 +101,10 @@ class HomePage extends React.Component {
         value: 0,
         gas: 200000,
         data: ethereumjsAbi.simpleEncode(
-          'acceptOffer(address)',
+          'acceptOffer(address,address,uint256)',
           this.props.record.entry.deedAddress,
           offerAddress,
-          offerValue,
+          offerValue.toString(),
         ).toString('hex') }));
       // this.props.dispatch(actions.ethereum.acceptOffer(this.props.record.entry.deedAddress, offerAddress, offerValue));
     };
@@ -164,7 +165,7 @@ class HomePage extends React.Component {
                   sideText=""
                   onClick={this.cancelOffer}
                   active={this.isMine(offer.address)}
-                  tip="You must own this offer to cancel it"
+                  tip="You must have placed this offer to cancel it"
                   activeTip="Cancels this offer and refunds the ether"
                   noBackground
                 />
@@ -181,6 +182,16 @@ class HomePage extends React.Component {
   }
   changeMessage = (e) => {
     this.setState({ message: e.target.value });
+  }
+
+  dummyRegister = () => {
+    this.props.dispatch(actions.ethereum.showPopup({
+      to: Ethereum.getENSAddress(),
+      value: 0,
+      gas: 1000000,
+      data: ethereumjsAbi.simpleEncode('fakeBid(bytes32)',
+        window.web3.sha3(this.props.route.params.name),
+      ).toString('hex') }));
   }
 
   listForm = () => {
@@ -203,7 +214,18 @@ class HomePage extends React.Component {
   listingData = () => {
     if (this.props.record.entry.deedAddress === zero) {
       return (
-        <div>This name has not been registered with the ENS. <a href={`https://registrar.ens.domains/#${this.state.name}`} target='_blank'>Register it here</a></div>
+        <div>
+          This name has not been registered with the ENS. <a href={`https://registrar.ens.domains/#${this.state.name}`} target='_blank'>Register it here</a>
+          {Ethereum.getNetwork() === 'kovan' ?
+            <div className={s.dummyRegister}>
+              You are on the kovan network.
+              <Button
+                text="Register this name for free with the ens.trade kovan dummy registrar"
+                onClick={this.dummyRegister}
+              />
+            </div>
+          : null}
+        </div>
       )
     } else if (this.props.record.ownedByENSTrade) {
       if (!this.props.record.record.listed) {
@@ -236,29 +258,11 @@ class HomePage extends React.Component {
         return (
           <div>
             <h4>This name is for sale! Buy it instantly for {window.web3.fromWei(this.props.record.record.buyPrice).toString()} ether</h4>
-            <div>.. or make an offer below</div>
+            <div>.. or make a custom offer</div>
             <div>
               <h4>Offers</h4>
               {this.listOffers()}
               <OfferForm deedAddress={this.props.record.entry.deedAddress} buyPrice={window.web3.fromWei(this.props.record.record.buyPrice).toString()}/>
-            </div>
-            <div className={s.spaceDown}>
-              <Button
-                text="Delist this name from sale"
-                sideText=""
-                onClick={this.deList}
-                active={this.isMine(this.props.record.previousOwner)}
-                tip="You must own this name to delist it"
-              />
-            </div>
-            <div>
-              <Button
-                text="Reclaim ownership of this name and remove it from sale"
-                sideText=""
-                onClick={this.reclaim}
-                active={this.isMine(this.props.record.previousOwner)}
-                tip="You must own this name to reclaim it"
-              />
             </div>
           </div>
         );
@@ -278,6 +282,10 @@ class HomePage extends React.Component {
     );
   }
 
+  refresh = () => {
+    this.props.dispatch(actions.ethereum.getName(this.props.route.params.name));
+  }
+
   render() {
     if (this.props.record.fetching) {
       return (
@@ -286,9 +294,25 @@ class HomePage extends React.Component {
         </Layout>
       );
     }
+    const id = `button${Math.random()}`;
     return (
       <Layout className={s.content}>
-        <h3>{this.state.name}.eth</h3>
+        <h3>
+          <div className={s.title}>
+            {this.state.name}.eth
+            <img
+              onClick={this.refresh}
+              className={s.refreshImg}
+              src="/images/refresh.svg"
+              alt="refresh"
+              data-tip
+              data-for={id}
+            />
+            <ReactTooltip id={id}>
+              <span>Refresh</span>
+            </ReactTooltip>
+          </div>
+        </h3>
         <hr />
         {this.listingData()}
         {this.props.record.entry.deedAddress !== zero ?
@@ -302,6 +326,29 @@ class HomePage extends React.Component {
             <div>Seller&#39;s Message: {(this.props.record.record.message ? this.props.record.record.message : '(none)')}</div>
           </div>
         : null }
+        {(this.props.record.ownedByENSTrade && this.props.record.record.listed ?
+          <div>
+            <h4>Other Options</h4>
+            <div>
+              <Button
+                text="Delist this name from sale"
+                sideText=""
+                onClick={this.deList}
+                active={this.isMine(this.props.record.previousOwner)}
+                tip="You must own this name to delist it"
+              />
+            </div>
+            <div>
+              <Button
+                text="Reclaim ownership of this name and remove it from sale"
+                sideText=""
+                onClick={this.reclaim}
+                active={this.isMine(this.props.record.previousOwner)}
+                tip="You must own this name to reclaim it"
+              />
+            </div>
+          </div>
+        : null) }
       </Layout>
     );
   }

@@ -16,7 +16,7 @@ class OfferForm extends React.Component {
     super(props);
     this.state = {
       offerValue: this.props.buyPrice,
-      offerMessage: undefined,
+      offerMessage: '',
     };
   }
 
