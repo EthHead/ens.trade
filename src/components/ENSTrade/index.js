@@ -31,6 +31,7 @@ export function getRecords() {
 
 export function updateRecords() {
   return new Promise((resolve, reject) => {
+    records.length = 0;
     let nextRecord;
     const getNextRecord = () => {
       contract.getRecord(nextRecord, (recordError, recordResult) => {

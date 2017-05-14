@@ -23,25 +23,30 @@ class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
+      name: this.props.route.params.name,
       buyPrice: 0,
       message: '',
     };
   }
 
+  componentDidMount() {
+    if (!this.props.ethereum.fetched) return;
+    this.props.dispatch(actions.ethereum.getName(this.props.route.params.name));
+  }
+
   componentWillReceiveProps(nextProps) {
     if (!nextProps.ethereum.fetched) return;
-    if (this.state.name !== nextProps.route.params.name) {
+    /*if (this.state.name !== nextProps.route.params.name) {
       this.setState({ name: nextProps.route.params.name });
       nextProps.dispatch(actions.ethereum.getName(nextProps.route.params.name));
-    }
+    }*/
     if (nextProps.record.fetched) {
       if (nextProps.offers.fetched || nextProps.offers.fetching || nextProps.offers.fetchingError) return;
       nextProps.dispatch(actions.ethereum.getOffers(nextProps.record.entry.deedAddress));
       return;
     }
     if (nextProps.record.fetching || nextProps.record.fetchingError ) return;
-    //nextProps.dispatch(actions.ethereum.getName(nextProps.route.params.name));
+    nextProps.dispatch(actions.ethereum.getName(nextProps.route.params.name));
   }
 
   transferToENSTrade = () => {

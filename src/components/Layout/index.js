@@ -4,8 +4,6 @@ import cx from 'classnames';
 import Header from './Header';
 import Footer from '../Footer';
 import s from './Layout.css';
-import store from '../../store';
-import actions from '../../actions';
 import SendTransaction from '../SendTransaction';
 
 class Layout extends React.Component {
@@ -19,7 +17,6 @@ class Layout extends React.Component {
   }
 
   componentDidMount() {
-    store.dispatch(actions.ethereum.init());
     window.componentHandler.upgradeElement(this.root);
   }
 

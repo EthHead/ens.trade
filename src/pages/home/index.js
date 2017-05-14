@@ -29,6 +29,12 @@ class HomePage extends React.Component {
     //}
     window.ethereum = Ethereum;
     window.ENSTrade = ENSTrade;
+
+    if (!ENSTrade.getRecords().length) {
+      this.props.dispatch(actions.ethereum.updateRecords());
+    } else {
+      this.sortRecords('price')();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -120,10 +126,10 @@ class HomePage extends React.Component {
           {this.state.sortedRecords.filter(
             record => `${record.name}.eth`.includes(this.state.filter),
           ).map(record =>
-            <tr key={record.name}>
+            <tr key={record.deedAddress}>
               <td><Link to={`/record/${record.name}`}>{record.name}.eth</Link></td>
               <td>{window.web3.fromWei(record.buyPrice).toString()} ether</td>
-              <td><a href={`https://etherscan.io/address/${record.deedAddress}`} target="_blank">{record.deedAddress}</a></td>
+              <td><a href={`https://etherscan.io/address/${record.deedAddress}`} target="_blank" rel="noopener noreferrer">{record.deedAddress}</a></td>
             </tr>,
           )}
           {this.showDummyName() ?
