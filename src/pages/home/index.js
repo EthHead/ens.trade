@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import ReactTooltip from 'react-tooltip';
 
 import Layout from '../../components/Layout';
 import s from './styles.css';
@@ -78,11 +79,29 @@ class HomePage extends React.Component {
     return true;
   }
 
+  refresh = () => {
+    this.props.dispatch(actions.ethereum.updateRecords());
+  }
+
   render() {
+    const id = `button${Math.random()}`;
     return (
       <Layout className={s.content}>
         <input type="text" onChange={this.filterChange} placeholder="filter" />
-        <h4>Names for sale</h4>
+        <h4>
+          Names for sale
+          <img
+            onClick={this.refresh}
+            className={s.refreshImg}
+            src="/images/refresh.svg"
+            alt="refresh"
+            data-tip
+            data-for={id}
+          />
+          <ReactTooltip id={id}>
+            <span>Refresh</span>
+          </ReactTooltip>
+        </h4>
         {this.props.records.fetching ? <div>Fetching names...</div> :
         <table>
           <thead>
