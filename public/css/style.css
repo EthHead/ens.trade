@@ -6,11 +6,15 @@ thead {
   font-weight:bold;
 }
 
+h1, h2, h3, h4 {
+  color: #182236;
+}
+
 input {
   font-family: 'Roboto Mono', monospace;
   width: 100%;
   padding: 12px 20px;
-  margin: 8px 0;
+  margin: 0 0;
   box-sizing: border-box;
   border-style: inset;
   border-width: 2px;

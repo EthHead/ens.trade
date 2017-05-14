@@ -43,7 +43,7 @@ class Header extends React.Component {
           <div className="mdl-layout-spacer" />
           <div>
             <form onSubmit={this.submitForm}>
-              <input type="text" placeholder="Search" value={this.state.search} onChange={this.onChange}/>
+              <input className={s.search} type="text" placeholder="Search" value={this.state.search} onChange={this.onChange}/>
             </form>
           </div>
         </div>

@@ -16,6 +16,7 @@
 .header {
   background-color:#f7f7f7;
   border-bottom: 3px dashed black;
+  height: 80px;
 }
 
 .logo {
@@ -23,11 +24,19 @@
   margin-right: 10px;
 }
 
+.search {
+  margin-left: 10px;
+}
 
 
 @media screen and (max-width: 1024px) {
   .header {
-    display: flex;
+    height: 60px;
+
+  }
+
+  .subTitle{
+    display: none;
   }
 
   .row {
