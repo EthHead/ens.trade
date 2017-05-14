@@ -1,0 +1,25 @@
+@media screen and (max-width: 1024px) {
+  .content {
+    padding: 0 16px;
+  }
+}
+
+.tip {
+  position: relative;
+  z-index:5;
+}
+
+.listBg {
+  background-color: #f7f7f7;
+  padding: 10px;
+  border: 1px solid white;
+}
+
+.listingHeader {
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.spaceDown {
+  padding-top: 20px;
+}

@@ -1,0 +1,8 @@
+.copy {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.copyImg {
+  width: 15px;
+}

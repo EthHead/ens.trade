@@ -1,0 +1,10 @@
+ body {
+   font-family: 'Roboto Mono', monospace;
+ }
+
+.content {
+  font-family: 'Roboto Mono', monospace;
+  margin: 20px auto;
+  max-width: 1000px;
+  width: 100%;
+}

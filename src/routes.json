@@ -1,0 +1,20 @@
+[
+  {
+    "path": "/",
+    "page": "./pages/home",
+    "chunk": "main"
+  },
+  {
+    "path": "/error",
+    "page": "./error",
+    "chunk": "main"
+  },
+  {
+    "path": "/record/:name",
+    "page": "./pages/record"
+  },
+  {
+    "path": "/tasks/:status(pending|completed)?",
+    "page": "./pages/home"
+  }
+]
