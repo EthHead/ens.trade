@@ -18,6 +18,11 @@
   border-bottom: 3px dashed black;
 }
 
+.logo {
+  width: 25px;
+  margin-right: 10px;
+}
+
 
 
 @media screen and (max-width: 1024px) {
