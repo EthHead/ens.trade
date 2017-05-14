@@ -28,6 +28,7 @@ class Layout extends React.Component {
   }
 
   render() {
+    // ens.trade is currently in alpha. Use at your own risk and do not list high-value names
     const props = {};
     for (let key in this.props) { //eslint-disable-line
       if (key !== 'popup' && key !== 'dispatch') props[key] = this.props[key];
@@ -36,7 +37,7 @@ class Layout extends React.Component {
       <div className="mdl-layout mdl-js-layout" ref={node => (this.root = node)}>
         <div className="mdl-layout__inner-container">
           <Header />
-          <div className={s.alpha}>ens.trade is currently in alpha. Use at your own risk and do not list high-value names</div>
+          <div className={s.alpha}>ens.trade is currently in alpha. It is only live on the kovan testnet</div>
           <main className="mdl-layout__content">
             <div {...props} className={cx(s.content, this.props.className)} />
             <Footer />

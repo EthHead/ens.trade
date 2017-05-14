@@ -1,11 +1,19 @@
 const express = require('express');
-const path = require('path');
 
 const app = express();
-app.configure(() => {
-  app.use(
-      '/', // the URL throught which you want to access to you static content
-      express.static(path.joint(__dirname, '/public')), // where your static content is located in your filesystem
-  );
+// const http = require('http');
+
+// const httpServer = http.Server(app);
+const path = require('path');
+
+const port = 3004;
+
+const staticPath = path.resolve(__dirname, '../public');
+app.use(express.static(staticPath));
+
+app.get('/', (req, res) => {
+  res.sendfile(path.join(__dirname, '/index.html'));
 });
-app.listen(4000); // the port you want to use
+app.listen(port);
+
+console.log('server running on '+port);
