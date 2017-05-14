@@ -258,7 +258,8 @@ const ethereum = () => {
         // set a global for easier debugging on the console
         window.g = { ens, registrar, network };
         console.log('ready');
-        return reportStatus('Ready!', true);
+        reportStatus('Ready!', true);
+        return { network };
       })
       .catch((err) => {
         console.error(err);

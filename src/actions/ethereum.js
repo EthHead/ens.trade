@@ -7,8 +7,8 @@ export function init() {
   return {
     type: 'INIT_ETHEREUM',
     payload: Ethereum.init()
-    .then(() => {
-      return true;
+    .then((result) => {
+      return result;
     }),
   };
 }
@@ -80,10 +80,10 @@ export function transferToENSTrade(name) {
   };
 }
 
-export function newListing(name, buyPrice, minimumOfferPrice, message) {
+export function newListing(name, buyPrice, message) {
   return {
     type: 'NEW_LISTING',
-    payload: ENSTrade.newListing(name, buyPrice, minimumOfferPrice, message)
+    payload: ENSTrade.newListing(name, buyPrice, message)
     .then((result) => {
       return result;
     }),
