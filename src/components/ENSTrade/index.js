@@ -1,5 +1,7 @@
 import ethereumjsAbi from 'ethereumjs-abi';
 
+import Ethereum from '../Ethereum';
+
 // 0x528596380eead3b76ef73447f27995af8909c086
 
 // RINKEBY
@@ -7,9 +9,11 @@ import ethereumjsAbi from 'ethereumjs-abi';
 // ensTrade 0x9b1a5dfe219e43517b150a7eef0d973a8dd9f339
 
 //eslint-disable-next-line
-const abi = [{"constant":true,"inputs":[],"name":"registrarAddress","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"},{"name":"_buyPrice","type":"uint256"}],"name":"setBuyPrice","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"},{"name":"_offerAddress","type":"address"},{"name":"_offerValue","type":"uint256"}],"name":"acceptOffer","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"},{"name":"_message","type":"string"}],"name":"newOffer","outputs":[],"payable":true,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"},{"name":"_email","type":"bytes32"},{"name":"_buyPrice","type":"uint256"},{"name":"_minimumOfferPrice","type":"uint256"}],"name":"updateListing","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalRecordsTraded","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"deList","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalValueTraded","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"getRecord","outputs":[{"name":"","type":"bool"},{"name":"","type":"string"},{"name":"","type":"bytes32"},{"name":"","type":"uint256"},{"name":"","type":"uint256"},{"name":"","type":"address"},{"name":"","type":"address"},{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_fee","type":"uint256"}],"name":"setFee","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_string","type":"string"}],"name":"sha","outputs":[{"name":"","type":"bytes32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"getRecordOffers","outputs":[{"name":"","type":"address"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_feeAddress","type":"address"}],"name":"setFeeAddress","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"},{"name":"_email","type":"bytes32"},{"name":"_buyPrice","type":"uint256"},{"name":"_minimumOfferPrice","type":"uint256"},{"name":"_message","type":"string"}],"name":"newListing","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_registrarAddress","type":"address"}],"name":"setRegistrarAddress","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"recordsCurrentlyListed","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"},{"name":"_minimumOfferPrice","type":"uint256"}],"name":"setMinimumOffer","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"cancelOffer","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_deedAddress","type":"address"},{"name":"_offerAddress","type":"address"}],"name":"getOffer","outputs":[{"name":"","type":"address"},{"name":"","type":"address"},{"name":"","type":"uint256"},{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"},{"name":"_email","type":"bytes32"}],"name":"setEmail","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"fee","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"lastRecord","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"reclaim","outputs":[],"payable":false,"type":"function"},{"inputs":[],"payable":false,"type":"constructor"}]
-;
-const address = '0x24bbffa9b830916ef4b81a97847e4c1db62aee37';
+const abi = [{"constant":true,"inputs":[],"name":"registrarAddress","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"},{"name":"_offerAddress","type":"address"},{"name":"_offerValue","type":"uint256"}],"name":"acceptOffer","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"},{"name":"_message","type":"string"}],"name":"newOffer","outputs":[],"payable":true,"type":"function"},{"constant":true,"inputs":[],"name":"totalRecordsTraded","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"deList","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalValueTraded","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"minimumOfferPrice","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"getRecord","outputs":[{"name":"","type":"bool"},{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"address"},{"name":"","type":"address"},{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_fee","type":"uint256"}],"name":"setFee","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"},{"name":"_buyPrice","type":"uint256"},{"name":"_message","type":"string"}],"name":"newListing","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_string","type":"string"}],"name":"sha","outputs":[{"name":"","type":"bytes32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"getRecordOffers","outputs":[{"name":"","type":"address"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_feeAddress","type":"address"}],"name":"setFeeAddress","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"recordsCurrentlyListed","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"cancelOffer","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_deedAddress","type":"address"},{"name":"_offerAddress","type":"address"}],"name":"getOffer","outputs":[{"name":"","type":"address"},{"name":"","type":"address"},{"name":"","type":"uint256"},{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_minimumOfferPrice","type":"uint256"}],"name":"setMinimumOfferPrice","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"fee","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"lastRecord","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"reclaim","outputs":[],"payable":false,"type":"function"},{"inputs":[{"name":"_registrarAddress","type":"address"}],"payable":false,"type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"deedAddress","type":"address"},{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"tradeComplete","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"deedAddress","type":"address"},{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"offerCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"deedAddress","type":"address"},{"indexed":false,"name":"from","type":"address"}],"name":"offerCancelled","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"deedAddress","type":"address"},{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"buyPrice","type":"uint256"}],"name":"listingCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"deedAddress","type":"address"},{"indexed":false,"name":"from","type":"address"}],"name":"listingRemoved","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"deedAddress","type":"address"},{"indexed":false,"name":"to","type":"address"}],"name":"recordReclaimed","type":"event"}];
+
+let address;
+const mainnetAddress = '';
+const kovanAddress = '0xb99b6ef29597fa91c66542c55f9195fac15ab9cc';
 
 let contract;
 
@@ -34,11 +38,9 @@ export function updateRecords() {
           listed: recordResult[0],
           deedAddress: nextRecord,
           name: recordResult[1],
-          email: recordResult[2],
-          buyPrice: recordResult[3],
-          minimumOfferPrice: recordResult[4],
-          nextRecord: recordResult[5],
-          previousRecord: recordResult[6],
+          buyPrice: recordResult[2],
+          nextRecord: recordResult[3],
+          previousRecord: recordResult[4],
         };
         records.push(rec);
         if (rec.previousRecord !== zero) {
@@ -105,9 +107,9 @@ export function sendTransaction() {
 
 }
 
-export function newListing(name, email, buyPrice, minimumOfferPrice, message) {
+export function newListing(name, buyPrice, message) {
   return new Promise((resolve, reject) => {
-    contract.newListing(name, email, buyPrice, minimumOfferPrice, message, (err, result) => {
+    contract.newListing(name, buyPrice, message, (err, result) => {
       if (err) {
         reject(err);
         return;
@@ -195,12 +197,10 @@ export function getRecord(record) {
         deedAddress: record,
         listed: result[0],
         name: result[1],
-        email: result[2],
-        buyPrice: result[3],
-        minimumOfferPrice: result[4],
-        nextRecord: result[5],
-        previousRecord: result[6],
-        message: result[7],
+        buyPrice: result[2],
+        nextRecord: result[3],
+        previousRecord: result[4],
+        message: result[5],
       });
     });
   });
@@ -220,7 +220,7 @@ export function getOffer(offer, callback) {
 
 export function init() {
   return new Promise((resolve) => {
-    //console.log('abi', );
+    address = Ethereum.getNetwork() === 'mainnet' ? mainnetAddress : kovanAddress;
     contract = window.web3.eth.contract(abi).at(address);
     window.ENScontract = contract;
     window.ethereumjsAbi = ethereumjsAbi;

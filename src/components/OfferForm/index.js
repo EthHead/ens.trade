@@ -1,17 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import ethereumjsAbi from 'ethereumjs-abi';
+import * as ENSTrade from '../ENSTrade';
+import Button from '../Button';
 import actions from '../../actions';
 
 class OfferForm extends React.Component {
 
   static propTypes = {
     deedAddress: React.PropTypes.string,
+    buyPrice: React.PropTypes.string,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      offerValue: undefined,
+      offerValue: this.props.buyPrice,
       offerMessage: undefined,
     };
   }
@@ -26,11 +30,22 @@ class OfferForm extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
+    this.props.dispatch(actions.ethereum.showPopup({
+      to: ENSTrade.getAddress(),
+      value: this.state.offerValue,
+      gas: 200000,
+      data: ethereumjsAbi.simpleEncode(
+        'newOffer(address,string)',
+        this.props.deedAddress,
+        this.state.offerMessage,
+      ).toString('hex') }));
+    /*
     this.props.dispatch(actions.ethereum.newOffer(
       this.props.deedAddress,
       this.state.offerMessage,
       window.web3.toWei(this.state.offerValue).toString(),
     ));
+    */
   }
 
   changeMessage = (e) => {
@@ -46,10 +61,10 @@ class OfferForm extends React.Component {
       <form onSubmit={this.onSubmit}>
         <h4>Make Offer</h4>
         <label htmlFor="offerValue">Amount (in ether)</label>
-        <input id="offerValue" type="number" step="any" onChange={this.changeValue} />
+        <input id="offerValue" type="number" step="any" value={this.state.offerValue} onChange={this.changeValue} />
         <label htmlFor="offerMessage">Message (optional)</label>
-        <input id="offerMessage" type="text" onChange={this.changeMessage} />
-        <button type="submit">Make Offer</button>
+        <input id="offerMessage" type="text" value={this.state.offerMessage} onChange={this.changeMessage} />
+        <Button text="Make Offer" type="submit" onClick={this.onSubmit} />
       </form>
     );
   }

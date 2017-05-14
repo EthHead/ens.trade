@@ -85,11 +85,14 @@ class HomePage extends React.Component {
         <h4>Names for sale</h4>
         {this.props.records.fetching ? <div>Fetching names...</div> :
         <table>
-          <tr>
-            <td onClick={this.sortRecords('name')}>Name</td>
-            <td onClick={this.sortRecords('price')}>Sale Price</td>
-            <td>Deed Address</td>
-          </tr>
+          <thead>
+            <tr>
+              <td onClick={this.sortRecords('name')}>Name</td>
+              <td onClick={this.sortRecords('price')}>Sale Price</td>
+              <td>Deed Address</td>
+            </tr>
+          </thead>
+          <tbody>
           {!this.state.filter && !this.state.sortedRecords.length ?
             <tr>
               <td>No records found</td>
@@ -100,7 +103,7 @@ class HomePage extends React.Component {
           ).map(record =>
             <tr key={record.name}>
               <td><Link to={`/record/${record.name}`}>{record.name}.eth</Link></td>
-              <td>{window.web3.fromWei(record.buyPrice).toString()}</td>
+              <td>{window.web3.fromWei(record.buyPrice).toString()} ether</td>
               <td><a href={`https://etherscan.io/address/${record.deedAddress}`} target="_blank">{record.deedAddress}</a></td>
             </tr>,
           )}
@@ -111,6 +114,7 @@ class HomePage extends React.Component {
               <td />
             </tr>
            : null}
+          </tbody>
         </table>
         }
       </Layout>

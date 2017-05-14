@@ -24,7 +24,6 @@ class HomePage extends React.Component {
     this.state = {
       name: '',
       buyPrice: 0,
-      minimumOfferPrice: 0,
       message: '',
     };
   }
@@ -62,10 +61,9 @@ class HomePage extends React.Component {
       value: 0,
       gas: 200000,
       data: ethereumjsAbi.simpleEncode(
-        'newListing(string,uint256,uint256,string)',
+        'newListing(string,uint256,string)',
         this.props.route.params.name,
         window.web3.toWei(this.state.buyPrice).toString(),
-        window.web3.toWei(this.state.minimumOfferPrice).toString(),
         this.state.message,
       ).toString('hex') }));
     // this.props.dispatch(actions.ethereum.newListing(this.props.route.params.name, 'email', window.web3.toWei(this.state.buyPrice).toString(), window.web3.toWei(this.state.minimumOfferPrice).toString(), this.state.message));
@@ -119,7 +117,7 @@ class HomePage extends React.Component {
         'cancelOffer(address)',
         this.props.record.entry.deedAddress,
       ).toString('hex') }));
-    this.props.dispatch(actions.ethereum.cancelOffer(this.props.record.entry.deedAddress));
+    // this.props.dispatch(actions.ethereum.cancelOffer(this.props.record.entry.deedAddress));
   }
 
   isMine = (address) => {
@@ -181,9 +179,6 @@ class HomePage extends React.Component {
   changeBuyPrice = (e) => {
     this.setState({ buyPrice: e.target.value });
   }
-  changeMinimumOfferPrice = (e) => {
-    this.setState({ minimumOfferPrice: e.target.value });
-  }
   changeMessage = (e) => {
     this.setState({ message: e.target.value });
   }
@@ -196,11 +191,6 @@ class HomePage extends React.Component {
           <div><small>Your name will be instantly sold if an offer is made of at least this amount (in ether)</small></div>
         </label>
         <input value={this.state.buyPrice} id="buyPrice" type="number" step="any" onChange={this.changeBuyPrice} />
-        <label htmlFor="minimumOfferPrice">
-          <div className={s.listingHeader}>Minimum Offer Price</div>
-          <div><small>Offers made to this name but be of at least this amount (in ether)</small></div>
-        </label>
-        <input value={this.state.minimumOfferPrice} id="minimumOfferPrice" type="number" step="any" onChange={this.changeMinimumOfferPrice} />
         <label htmlFor="message">
           <div className={s.listingHeader}>Message</div>
           <div><small>(optional, eg: contact email)</small></div>
@@ -245,13 +235,12 @@ class HomePage extends React.Component {
       } else {
         return (
           <div>
-            <h4>This name is for sale!</h4>
+            <h4>This name is for sale! Buy it instantly for {window.web3.fromWei(this.props.record.record.buyPrice).toString()} ether</h4>
+            <div>.. or make an offer below</div>
             <div>
               <h4>Offers</h4>
               {this.listOffers()}
-              {!this.isMine(this.props.record.previousOwner) ?
-                <OfferForm deedAddress={this.props.record.entry.deedAddress} />
-              : null }
+              <OfferForm deedAddress={this.props.record.entry.deedAddress} buyPrice={window.web3.fromWei(this.props.record.record.buyPrice).toString()}/>
             </div>
             <div className={s.spaceDown}>
               <Button
@@ -309,6 +298,7 @@ class HomePage extends React.Component {
             <div>Owner: <a href={`https://etherscan.io/address/${this.props.record.owner}`} target="_blank">{this.props.record.owner}</a> {this.props.record.owner === ENSTrade.getAddress() ? '(ens.trade)' : null}</div>
             <div>Previous Owner: <a href={`https://etherscan.io/address/${this.props.record.previousOwner}`} target="_blank">{this.props.record.previousOwner}</a></div>
             <div>Locked value: {this.props.record.value.toString()} (Unlocks {new Date((this.props.record.creationDate * 1000) + lockTime).toString()})</div>
+            <div>Sale Price: {window.web3.fromWei(this.props.record.record.buyPrice).toString()} ether</div>
             <div>Seller&#39;s Message: {(this.props.record.record.message ? this.props.record.record.message : '(none)')}</div>
           </div>
         : null }

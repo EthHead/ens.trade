@@ -8,6 +8,10 @@ export let ens; // eslint-disable-line
 export let registrar; // eslint-disable-line
 export let network; // eslint-disable-line
 
+const useNetwork = 'kovan';
+
+let localWeb3 = false;
+
 let contract;
 
 // eslint-disable-next-line
@@ -36,11 +40,14 @@ const ethereum = () => {
       if (typeof window.web3 !== 'undefined') {
         //window.web3 = new window.Web3(window.web3.currentProvider);
         // TODO: ? LocalStore.set('hasNode', true);
+        localWeb3 = true;
       } else {
         // const Web3 = require('web3');
         // web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
         // web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/NEefAs8cNxYfiJsYCQjc"));
-        window.web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io/NEefAs8cNxYfiJsYCQjc'));
+        console.log('Loading web3 via infura');
+        localWeb3 = false;
+        window.web3 = new Web3(new Web3.providers.HttpProvider(`https://${useNetwork}.infura.io/NEefAs8cNxYfiJsYCQjc`));
         // TODO: ? LocalStore.set('hasNode', false);
       }
       resolve();
@@ -60,15 +67,12 @@ const ethereum = () => {
     contract.entries(hash, (error, result) => {
       window.web3.eth.contract(deedAbi).at(result[1], (deedError, deedResult) => {
         deedResult.owner((dError, dResult) =>{
-          console.log('owner',dError, dResult);
           callback();
         });
         deedResult.previousOwner((dError, dResult) =>{
-          console.log('previousOwner',dError, dResult);
           callback();
         });
         deedResult.registrar((dError, dResult) =>{
-          console.log('registrar',dError, dResult);
           callback();
         });
       });
@@ -164,6 +168,14 @@ const ethereum = () => {
         }
       });
     });
+  }
+
+  function isLocalWeb3() {
+    return localWeb3;
+  }
+
+  function getNetwork() {
+    return network;
   }
 
   function initRegistrar() {
@@ -278,6 +290,8 @@ const ethereum = () => {
     transferToENSTrade,
     getName,
     getENSAddress,
+    isLocalWeb3,
+    getNetwork,
     onStatusChange(callback) {
       subscribers.push(callback);
     },

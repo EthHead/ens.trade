@@ -8,3 +8,12 @@
   max-width: 1000px;
   width: 100%;
 }
+
+.alpha {
+  background-color: #910000;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  max-width: 1200px;
+  margin: 10px auto;
+}

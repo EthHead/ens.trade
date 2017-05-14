@@ -8,7 +8,6 @@ export function init() {
     type: 'INIT_ETHEREUM',
     payload: Ethereum.init()
     .then(() => {
-      console.log('tet');
       return true;
     }),
   };
@@ -35,7 +34,6 @@ export function getName(record) {
       return nameResult;
     })
     .then(() => {
-      console.log('e',nameResult.entry.deedAddress);
       if (nameResult.entry.deedAddress === zero) {
         return {
           record: {}
@@ -57,7 +55,6 @@ export function getRecord(record) {
     type: 'FETCH_RECORD',
     payload: ENSTrade.getRecord(record)
     .then((result) => {
-      console.log(result);
       return result;
     }),
   };
@@ -68,7 +65,6 @@ export function getOffers(deedAddress) {
     type: 'FETCH_OFFERS',
     payload: ENSTrade.getOffers(deedAddress)
     .then((result) => {
-      console.log(result);
       return result;
     }),
   };
@@ -79,18 +75,16 @@ export function transferToENSTrade(name) {
     type: 'TRANSFER_TO_ENSTRADE',
     payload: Ethereum.transferToENSTrade(name)
     .then((result) => {
-      console.log(result);
       return result;
     }),
   };
 }
 
-export function newListing(name, email, buyPrice, minimumOfferPrice, message) {
+export function newListing(name, buyPrice, minimumOfferPrice, message) {
   return {
     type: 'NEW_LISTING',
-    payload: ENSTrade.newListing(name, email, buyPrice, minimumOfferPrice, message)
+    payload: ENSTrade.newListing(name, buyPrice, minimumOfferPrice, message)
     .then((result) => {
-      console.log(result);
       return result;
     }),
   };
@@ -101,7 +95,6 @@ export function newOffer(deedAddress, message, value) {
     type: 'NEW_OFFER',
     payload: ENSTrade.newOffer(deedAddress, message, value)
     .then((result) => {
-      console.log(result);
       return result;
     }),
   };
@@ -112,7 +105,6 @@ export function acceptOffer(deedAddress, offerAddress, offerValue) {
     type: 'ACCEPT_OFFER',
     payload: ENSTrade.acceptOffer(deedAddress, offerAddress, offerValue)
     .then((result) => {
-      console.log(result);
       return result;
     }),
   };
@@ -123,7 +115,6 @@ export function cancelOffer(deedAddress) {
     type: 'CANCEL_OFFER',
     payload: ENSTrade.cancelOffer(deedAddress)
     .then((result) => {
-      console.log(result);
       return result;
     }),
   };
@@ -134,7 +125,6 @@ export function deList(deedAddress) {
     type: 'DELIST_LISTING',
     payload: ENSTrade.deList(deedAddress)
     .then((result) => {
-      console.log(result);
       return result;
     }),
   };
@@ -145,7 +135,6 @@ export function reclaim(deedAddress) {
     type: 'RECLAIM_LISTING',
     payload: ENSTrade.reclaim(deedAddress)
     .then((result) => {
-      console.log(result);
       return result;
     }),
   };

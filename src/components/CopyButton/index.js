@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import copy from 'copy-to-clipboard';
 import ReactTooltip from 'react-tooltip';
 import s from './CopyButton.css';
@@ -6,7 +7,10 @@ import Button from '../../components/Button';
 
 class CopyButton extends React.Component {
   static propTypes = {
-    data: React.PropTypes.string,
+    data: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ])
   };
 
   constructor(props) {

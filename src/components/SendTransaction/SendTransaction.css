@@ -2,3 +2,14 @@
   width: 100%;
   padding: 3px 3px;
 }
+
+.label {
+  font-weight: bold;
+  margin-top: 8px;
+  margin-left: 8px;
+}
+
+.center {
+  margin-top: 10px;
+  text-align: center;
+}
