@@ -103,6 +103,7 @@ contract ENSTrade {
         Deed d = Deed(_deedAddress);
         if (d.owner() != address(this)) throw;
         if (d.previousOwner() != msg.sender) throw;
+        if (_buyPrice == 0 || _buyPrice < minimumOfferPrice) throw; // For extra security
 
         Record r = records[_deedAddress];
         if (lastRecord != 0x0) {
