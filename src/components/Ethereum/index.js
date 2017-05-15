@@ -29,6 +29,9 @@ export const errors = {
 
 let networkId;
 
+const zeroBytes32 = '0x0000000000000000000000000000000000000000000000000000000000000000';
+const zeroAddress = '0x0000000000000000000000000000000000000000';
+
 const ethereum = () => {
   let initialized = false;
   const subscribers = [];
@@ -217,7 +220,29 @@ const ethereum = () => {
           hash,
           deedAddress: result[1],
         };
-        window.web3.eth.contract(deedAbi).at(entry.deedAddress, (deedError, deedContract) => {
+        if (entry.deedAddress === zeroAddress) {
+          resolve({
+            ownedByENSTrade: false,
+            entry,
+            owner: zeroAddress,
+            previousOwner: zeroAddress,
+            value: 0,
+            creationDate: 0,
+          });
+          return;
+        }
+        ENSTrade.getDeedInfo(entry.deedAddress)
+        .then((info) => {
+          resolve({
+            ownedByENSTrade: (info.owner === ENSTrade.getAddress()),
+            entry,
+            owner: info.owner,
+            previousOwner: info.previousOwner,
+            value: info.value,
+            creationDate: info.creationDate.toNumber(),
+          });
+        });
+        /* window.web3.eth.contract(deedAbi).at(entry.deedAddress, (deedError, deedContract) => {
           deedContract.owner((ownerError, ownerResult) => {
             deedContract.previousOwner((previousOwnerError, previousOwnerResult) => {
               deedContract.value((valueError, valueResult) => {
@@ -234,7 +259,7 @@ const ethereum = () => {
               });
             });
           });
-        });
+        });*/
       });
     });
   }

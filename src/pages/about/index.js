@@ -14,7 +14,7 @@ class About extends React.Component {
         It uses the power of the Ethereum network to trade ENS names for ether without requiring any trust from either party.
         </p>
         <h4>How does it work?</h4>
-        <p>Sellers can send their ENS names to the <a href="https://github.com/EthHead/ens.trade/blob/master/public/contracts/ENSTrade.sol" target="_blank" rel="noopener noreferrer">ens.trade smart contract</a> and set up a listing.
+        <p>Sellers can send their ENS names to the <a href="https://github.com/EthHead/ens.trade/blob/master/public/contracts/ENSTradeHashIndex.sol" target="_blank" rel="noopener noreferrer">ens.trade smart contract</a> and set up a listing.
         Names owned by <b>ens.trade</b> can only be reclaimed by the original seller or are transferred if an offer is placed that the seller deems high enough.<br />
         At no point in time do <b>ens.trade</b> staff have access to any ENS names or ether.
         </p>

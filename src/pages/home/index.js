@@ -5,7 +5,7 @@ import ReactTooltip from 'react-tooltip';
 import Layout from '../../components/Layout';
 import s from './styles.css';
 import Link from '../../components/Link';
-
+import Address from '../../components/Address';
 import Ethereum from '../../components/Ethereum';
 import * as ENSTrade from '../../components/ENSTrade';
 import actions from '../../actions';
@@ -99,6 +99,7 @@ class HomePage extends React.Component {
   }
 
   render() {
+    window.Address = Address;
     const id = `button${Math.random()}`;
     return (
       <Layout className={s.content}>
@@ -133,7 +134,6 @@ class HomePage extends React.Component {
             <tr>
               <td onClick={this.setSort('name')}>Name</td>
               <td onClick={this.setSort('price')}>Sale Price</td>
-              <td>Deed Address</td>
             </tr>
           </thead>
           <tbody>
@@ -148,7 +148,6 @@ class HomePage extends React.Component {
             <tr key={record.hash}>
               <td><Link to={`/record/${record.name}`}>{record.name}.eth</Link></td>
               <td>{record.buyPriceETH} ether</td>
-              <td><a href={`https://${Ethereum.getNetwork() === 'mainnet' ? '' : 'kovan'}.etherscan.io/address/${record.hash}`} target="_blank" rel="noopener noreferrer">{record.hash}</a></td>
             </tr>,
           )}
           {this.showDummyName() ?
