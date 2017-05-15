@@ -152,7 +152,7 @@ class HomePage extends React.Component {
           ).map(offer =>
             <tr key={offer.address}>
               <td>{window.web3.fromWei(offer.value).toString()} ETH</td>
-              <td>{offer.address}</td>
+              <td><a href={`https://${Ethereum.getNetwork() === 'mainnet' ? '' : 'kovan'}.etherscan.io/address/${offer.address}`} target="_blank" rel="noreferrer noopener">{offer.address}</a></td>
               <td>
                 <Button
                   text="Accept"
@@ -331,9 +331,9 @@ class HomePage extends React.Component {
         {this.props.record.entry.deedAddress !== zero ?
           <div>
             <h4>Information</h4>
-            <div>Deed Address: <a href={`https://etherscan.io/address/${this.props.record.entry.deedAddress}`} target="_blank">{this.props.record.entry.deedAddress}</a></div>
-            <div>Owner: <a href={`https://etherscan.io/address/${this.props.record.owner}`} target="_blank">{this.props.record.owner}</a> {this.props.record.owner === ENSTrade.getAddress() ? '(ens.trade)' : null}</div>
-            <div>Previous Owner: <a href={`https://etherscan.io/address/${this.props.record.previousOwner}`} target="_blank">{this.props.record.previousOwner}</a></div>
+            <div>Deed Address: <a href={`https://${Ethereum.getNetwork() === 'mainnet' ? '' : 'kovan'}.etherscan.io/address/${this.props.record.entry.deedAddress}`} target="_blank">{this.props.record.entry.deedAddress}</a></div>
+            <div>Owner: <a href={`https://${Ethereum.getNetwork() === 'mainnet' ? '' : 'kovan'}.etherscan.io/address/${this.props.record.owner}`} target="_blank">{this.props.record.owner}</a> {this.props.record.owner === ENSTrade.getAddress() ? '(ens.trade)' : null}</div>
+            <div>Previous Owner: <a href={`https://${Ethereum.getNetwork() === 'mainnet' ? '' : 'kovan'}.etherscan.io/address/${this.props.record.previousOwner}`} target="_blank">{this.props.record.previousOwner}</a></div>
             <div>Locked value: {this.props.record.value.toString()} (Unlocks {new Date((this.props.record.creationDate * 1000) + lockTime).toString()})</div>
             <div>Sale Price: {window.web3.fromWei(this.props.record.record.buyPrice).toString()} ether</div>
             <div>Seller&#39;s Message: {(this.props.record.record.message ? this.props.record.record.message : '(none)')}</div>

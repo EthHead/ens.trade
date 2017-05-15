@@ -129,7 +129,7 @@ class HomePage extends React.Component {
             <tr key={record.deedAddress}>
               <td><Link to={`/record/${record.name}`}>{record.name}.eth</Link></td>
               <td>{window.web3.fromWei(record.buyPrice).toString()} ether</td>
-              <td><a href={`https://etherscan.io/address/${record.deedAddress}`} target="_blank" rel="noopener noreferrer">{record.deedAddress}</a></td>
+              <td><a href={`https://${Ethereum.getNetwork() === 'mainnet' ? '' : 'kovan'}.etherscan.io/address/${record.deedAddress}`} target="_blank" rel="noopener noreferrer">{record.deedAddress}</a></td>
             </tr>,
           )}
           {this.showDummyName() ?
