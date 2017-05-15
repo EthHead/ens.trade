@@ -4,9 +4,9 @@ import Ethereum from '../Ethereum';
 import * as ENSTrade from '../ENSTrade';
 
 const Address = (addr) => {
-  const checkSum = window.web3.toChecksumAddress(addr);
-  const address = addr ? checkSum : '(none)';
-  const smallAddress = addr ? `${checkSum.substring(0, 7)}..${checkSum.slice(-5)}` : '(none)';
+  const checkSum = addr ? window.web3.toChecksumAddress(addr) : null;
+  const address = checkSum ? checkSum : '(none)';
+  const smallAddress = checkSum ? `${checkSum.substring(0, 7)}..${checkSum.slice(-5)}` : '(none)';
   return (
     <span>
       <a
