@@ -15,8 +15,6 @@ let routes = require('./routes.json').default; // Loaded with utils/routes-loade
 
 const container = document.getElementById('container');
 
-store.dispatch(actions.ethereum.init());
-
 function renderComponent(component) {
   ReactDOM.render(<Provider store={store}>{component}</Provider>, container);
 }
@@ -46,3 +44,5 @@ if (module.hot) {
     render(history.location);
   });
 }
+
+store.dispatch(actions.ethereum.init());
