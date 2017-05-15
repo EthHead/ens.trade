@@ -41,12 +41,12 @@ contract ENSTrade {
         string message;
     }
 
-    event tradeComplete(address indexed deedAddress, address from, address to, uint value);
-    event offerCreated(address indexed deedAddress, address from, uint value);
-    event offerCancelled(address indexed deedAddress, address from);
-    event listingCreated(address indexed deedAddress, address from, uint buyPrice);
-    event listingRemoved(address indexed deedAddress, address from);
-    event recordReclaimed(address indexed deedAddress, address to);
+    event TradeComplete(address indexed deedAddress, address from, address to, uint value);
+    event OfferCreated(address indexed deedAddress, address from, uint value);
+    event OfferCancelled(address indexed deedAddress, address from);
+    event ListingCreated(address indexed deedAddress, address from, uint buyPrice);
+    event ListingRemoved(address indexed deedAddress, address from);
+    event RecordReclaimed(address indexed deedAddress, address to);
 
     address feeAddress;
     uint public fee = 0; // Out of 10000 (0% for alpha)
@@ -56,7 +56,7 @@ contract ENSTrade {
     uint public totalRecordsTraded;
     uint public totalValueTraded;
 
-    address public registrarAddress;
+    Registrar public registrarAddress;
 
     mapping (address => Record) records;
     mapping (address => mapping (address => Offer)) offers;
@@ -64,7 +64,7 @@ contract ENSTrade {
     address public lastRecord;
 
     modifier onlyOwner(address _deedAddress) {
-        // Check who owns the name using the previousOwner() function, as ens.trade should currently owns it.
+        // Check who owns the name using the previousOwner() function, as ens.trade should currently own it.
         Deed d = Deed(_deedAddress);
         if (d.owner() != address(this)) throw;
         if (d.previousOwner() != msg.sender) throw;
@@ -76,7 +76,7 @@ contract ENSTrade {
         _;
     }
 
-    function ENSTrade(address _registrarAddress) {
+    function ENSTrade(Registrar _registrarAddress) {
         feeAddress = msg.sender;
         registrarAddress = _registrarAddress;
     }
@@ -117,14 +117,14 @@ contract ENSTrade {
         lastRecord = _deedAddress;
         recordsCurrentlyListed++;
 
-        listingCreated(_deedAddress, msg.sender, _buyPrice);
+        ListingCreated(_deedAddress, msg.sender, _buyPrice);
     }
 
     function deList(address _deedAddress) onlyOwner(_deedAddress) {
         Record r = records[_deedAddress];
         if (r.listed) {
             deleteRecord(_deedAddress);
-            listingRemoved(_deedAddress, msg.sender);
+            ListingRemoved(_deedAddress, msg.sender);
         }
     }
 
@@ -134,9 +134,9 @@ contract ENSTrade {
         d.setOwner(msg.sender);
         if (r.listed) {
             deleteRecord(_deedAddress);
-            listingRemoved(_deedAddress, msg.sender);
+            ListingRemoved(_deedAddress, msg.sender);
         }
-        recordReclaimed(_deedAddress, msg.sender);
+        RecordReclaimed(_deedAddress, msg.sender);
     }
 
     function deleteRecord(address _deedAddress) internal {
@@ -172,7 +172,7 @@ contract ENSTrade {
         ro.totalOfferCount++;
         ro.totalOfferValue += msg.value;
 
-        offerCreated(_deedAddress, msg.sender, msg.value);
+        OfferCreated(_deedAddress, msg.sender, msg.value);
     }
 
     function cancelOffer(address _deedAddress) {
@@ -182,7 +182,7 @@ contract ENSTrade {
         deleteOffer(_deedAddress, msg.sender);
         msg.sender.transfer(valueToSend);
 
-        offerCancelled(_deedAddress, msg.sender);
+        OfferCancelled(_deedAddress, msg.sender);
     }
 
     function acceptOffer(address _deedAddress, address _offerAddress, uint _offerValue) onlyOwner(_deedAddress) {
@@ -220,7 +220,7 @@ contract ENSTrade {
         d.previousOwner().transfer(_value - _fee);
         feeAddress.transfer(_fee);
 
-        tradeComplete(_deedAddress, d.previousOwner(), _toAddress, _value);
+        TradeComplete(_deedAddress, d.previousOwner(), _toAddress, _value);
     }
 
     function getRecord(address _deedAddress) constant returns(bool, string, uint, address, address, string) {
