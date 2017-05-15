@@ -80,6 +80,24 @@
   word-break: break-all;
 }
 
+.infoTable {
+  border-collapse: collapse;
+  max-width: 600px;
+}
+
+.infoTable tr td:first-child{
+  border-right: 1px solid #182236;
+  width: 50%;
+  padding: 10px;
+  text-align: right;
+}
+
+.infoTable tr td:last-child{
+  width: 50%;
+  padding-left: 10px;
+  font-weight: bold;
+}
+
 @media screen and (max-width: 700px) {
   .offerAmount {
     font-size: 15px;

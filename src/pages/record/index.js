@@ -260,14 +260,18 @@ class HomePage extends React.Component {
                 noBackground
               />
             </div>
-            <div>
-              <Button
-                text="Reclaim this name and regain ownership of it"
-                sideText=""
-                onClick={this.reclaim}
-                active={this.isMine(this.props.record.previousOwner)}
-                tip="You must own this name to reclaim it"
-              />
+            {this.showInformation()}
+            <div className={s.sellerOptions}>
+              <h4>Seller Options</h4>
+              <div>
+                <Button
+                  text="Reclaim ownership of this name and remove it from sale"
+                  sideText=""
+                  onClick={this.reclaim}
+                  active={this.isMine(this.props.record.previousOwner)}
+                  tip="You must own this name to reclaim it"
+                />
+              </div>
             </div>
           </div>
         );
@@ -278,8 +282,9 @@ class HomePage extends React.Component {
             <div>
               <h4>Offers</h4>
               {this.listOffers()}
-              <OfferForm hash={this.props.record.entry.hash} buyPrice={window.web3.fromWei(this.props.record.record.buyPrice).toString()}/>
             </div>
+            <OfferForm hash={this.props.record.entry.hash} buyPrice={window.web3.fromWei(this.props.record.record.buyPrice).toString()}/>
+            {this.showInformation()}
           </div>
         );
       }
@@ -294,6 +299,47 @@ class HomePage extends React.Component {
           active={this.isMine(this.props.record.owner)}
           tip="You must own this name to transfer it"
         />
+        {this.showInformation()}
+      </div>
+    );
+  }
+
+  showInformation = () => {
+    return (
+      <div className={s.information}>
+        <h4>Information</h4>
+        <table className={s.infoTable}>
+          <tbody>
+            <tr>
+              <td>Hash</td>
+              <td className={s.breakWord}>{this.props.record.entry.hash}</td>
+            </tr>
+            <tr>
+              <td>Deed Address</td>
+              <td>{Address(this.props.record.entry.deedAddress)}</td>
+            </tr>
+            <tr>
+              <td>Owner</td>
+              <td>{Address(this.props.record.owner)}</td>
+            </tr>
+            <tr>
+              <td>Previous Owner</td>
+              <td>{Address(this.props.record.previousOwner)}</td>
+            </tr>
+            <tr>
+              <td>Locked Value</td>
+              <td>{this.props.record.value.toString()} (Unlocks {new Date((this.props.record.creationDate * 1000) + lockTime).toString()})</td>
+            </tr>
+            <tr>
+              <td>Instant Buy Price</td>
+              <td>{window.web3.fromWei(this.props.record.record.buyPrice).toString()} ether</td>
+            </tr>
+            <tr>
+              <td>Seller&#39;s Message</td>
+              <td>{(this.props.record.record.message ? this.props.record.record.message : '(none)')}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     );
   }
@@ -339,18 +385,6 @@ class HomePage extends React.Component {
         </h3>
         <hr />
         {this.listingData()}
-        {this.props.record.entry.deedAddress !== zero ?
-          <div className={s.information}>
-            <h4>Information</h4>
-            <div className={s.breakWord}>Hash: {this.props.record.entry.hash}</div>
-            <div>Deed Address: {Address(this.props.record.entry.deedAddress)}</div>
-            <div>Owner: {Address(this.props.record.owner)}</div>
-            <div>Previous Owner: {Address(this.props.record.previousOwner)}</div>
-            <div>Locked value: {this.props.record.value.toString()} (Unlocks {new Date((this.props.record.creationDate * 1000) + lockTime).toString()})</div>
-            <div>Sale Price: {window.web3.fromWei(this.props.record.record.buyPrice).toString()} ether</div>
-            <div>Seller&#39;s Message: {(this.props.record.record.message ? this.props.record.record.message : '(none)')}</div>
-          </div>
-        : null }
         {(this.props.record.ownedByENSTrade && this.props.record.record.listed ?
           <div className={s.sellerOptions}>
             <h4>Seller Options</h4>

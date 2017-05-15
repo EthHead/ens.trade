@@ -68,7 +68,7 @@ class OfferForm extends React.Component {
         <div className={s.button}>
           <Button text="Make Offer" type="submit" onClick={this.onSubmit} />
         </div>
-        <div className={s.description}>Making an offer will store the ether in the ens.trade smart contract. If your offer is above the sale price, or the seller accepts, the ENS name will be instantly transferred to you. You can cancel your offer at anytime and reclaim your eth.</div>
+        <div className={s.description}>Making an offer will store your ether in the ens.trade smart contract. If your offer is above the sale price, or the seller accepts, the ENS name will be instantly transferred to you. You can cancel your offer at anytime and reclaim your eth.</div>
       </form>
     );
   }

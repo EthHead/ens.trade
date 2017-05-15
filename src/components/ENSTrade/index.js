@@ -41,6 +41,7 @@ export function updateRecords() {
     const getNextRecord = () => {
       contract.getRecord(nextRecord, (recordError, recordResult) => {
         const rec = {
+          id: records.length,
           listed: recordResult[0],
           hash: nextRecord,
           name: recordResult[1],

@@ -16,7 +16,7 @@ class HomePage extends React.Component {
     super(props);
     this.state = {
       filter: '',
-      sortBy: 'price',
+      sortBy: 'id',
       sortDir: 'asc',
       sortedRecords: [],
     };
@@ -61,9 +61,15 @@ class HomePage extends React.Component {
       if (this.state.sortBy === 'name') {
         //console.log('wtf',window.web3.fromWei(sortedRecords[0].buyPrice).toNumber());
         if (this.state.sortDir === 'asc') {
-          sortedRecords.sort((a, b) => a.name < b.name);
-        } else {
           sortedRecords.sort((a, b) => a.name > b.name);
+        } else {
+          sortedRecords.sort((a, b) => a.name < b.name);
+        }
+      } else if (this.state.sortBy === 'id') {
+        if (this.state.sortDir === 'asc') {
+          sortedRecords.sort((a, b) => a.id > b.id);
+        } else {
+          sortedRecords.sort((a, b) => a.id < b.id);
         }
       } else {
         if (this.state.sortDir === 'asc') {
@@ -100,15 +106,19 @@ class HomePage extends React.Component {
 
   render() {
     window.Address = Address;
-    const id = `button${Math.random()}`;
     return (
       <Layout className={s.content}>
         <input type="text" className={s.filter} onChange={this.filterChange} placeholder="search" />
         <table className={s.namesTable}>
           <thead>
             <tr>
-              <td onClick={this.setSort('name')}>
-                Name
+              <td>
+                <span className={s.sortBy} onClick={this.setSort('name')} data-tip data-for="sortByName">
+                  Name
+                </span>
+                <ReactTooltip id="sortByName">
+                  <span>Sort by name</span>
+                </ReactTooltip>
                 {!this.props.records.fetching ?
                   <span>
                     <img
@@ -117,9 +127,9 @@ class HomePage extends React.Component {
                       src="/images/refresh.svg"
                       alt="refresh"
                       data-tip
-                      data-for={id}
+                      data-for="nameRefresh"
                     />
-                    <ReactTooltip id={id}>
+                    <ReactTooltip id="nameRefresh">
                       <span>Refresh</span>
                     </ReactTooltip>
                   </span>
@@ -130,7 +140,14 @@ class HomePage extends React.Component {
                     alt="loading"
                   />}
               </td>
-              <td onClick={this.setSort('price')}>Sale Price</td>
+              <td>
+                <span className={s.sortBy} onClick={this.setSort('price')} data-tip data-for="sortByPrice">
+                  Instant Buy Price
+                </span>
+                <ReactTooltip id="sortByPrice">
+                  <span>Sort by price</span>
+                </ReactTooltip>
+              </td>
             </tr>
           </thead>
           <tbody>
