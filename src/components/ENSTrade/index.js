@@ -211,18 +211,16 @@ export function getLastRecord(callback) {
   });
 }
 
-export function getRecord(record) {
-  console.log('Fetching record', record);
+export function getRecord(hash) {
+  console.log('Fetching record', hash);
   return new Promise((resolve, reject) => {
-    contract.getRecord(record, (err, result) => {
-      console.log(record,'1',err,result);
+    contract.getRecord(hash, (err, result) => {
       if (err) {
         reject(err);
         return;
       }
-      console.log('2');
       resolve({
-        hash: record,
+        hash,
         listed: result[0],
         name: result[1],
         buyPrice: result[2],

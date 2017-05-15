@@ -13,18 +13,6 @@ export function init() {
   };
 }
 
-export function updateNextRecord(record) {
-  console.log('next',record);
-  return {
-    type: 'UPDATE_NEXT_RECORD',
-    payload: ENSTrade.updateNextRecord(record)
-    .then((result) => {
-      console.log('updatenext',result);
-      return result;
-    }),
-  };
-}
-
 export function updateRecordsLive() {
   let nextRecord;
   function tryNextRecord(record) {
@@ -89,7 +77,6 @@ export function getName(record) {
       return ENSTrade.getRecord(nameResult.entry.hash);
     })
     .then((rec) => {
-      console.log('rec', rec);
       return {
         ...nameResult,
         record: rec,

@@ -335,7 +335,7 @@ class HomePage extends React.Component {
         </h3>
         <hr />
         {this.listingData()}
-        {this.props.record.entry.hash !== zero ?
+        {this.props.record.entry.deedAddress !== zero ?
           <div>
             <h4>Information</h4>
             <div>Hash: {this.props.record.entry.hash}</div>
