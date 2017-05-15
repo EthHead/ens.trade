@@ -32,12 +32,12 @@ class Layout extends React.Component {
     }
     if (!this.props.ethereum.fetched) {
       return (
-        <div className="mdl-layout mdl-js-layout" ref={node => (this.root = node)}>
-          <div className="mdl-layout__inner-container">
+        <div ref={node => (this.root = node)}>
+          <div>
             <Header />
             <div className={s.alpha}>ens.trade is currently in alpha. It is only live on the kovan testnet.<br />
             Found a bug? We are paying a <a href="https://github.com/EthHead/ens.trade/issues" target="_blank" rel="noopener noreferrer">bug bounty!</a></div>
-            <main className="mdl-layout__content">
+            <main>
               <div className={cx(s.content, this.props.className)}>
                 Initializing...
               </div>
@@ -65,12 +65,12 @@ class Layout extends React.Component {
       );
     }
     return (
-      <div className="mdl-layout mdl-js-layout" ref={node => (this.root = node)}>
-        <div className="mdl-layout__inner-container">
+      <div ref={node => (this.root = node)}>
+        <div>
           <Header />
           <div className={s.alpha}>ens.trade is currently in alpha. It is only live on the kovan testnet.<br />
           Found a bug? We are paying a <a href="https://github.com/EthHead/ens.trade/issues" target="_blank" rel="noopener noreferrer">bug bounty!</a></div>
-          <main className="mdl-layout__content">
+          <main>
             <div {...props} className={cx(s.content, this.props.className)} />
             <Footer />
           </main>
