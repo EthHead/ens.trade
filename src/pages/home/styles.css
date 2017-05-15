@@ -1,9 +1,3 @@
-@media screen and (max-width: 1024px) {
-  .content {
-    padding: 0 16px;
-  }
-}
-
 .refresh {
   cursor: pointer;
   display: inline-block;
@@ -20,4 +14,82 @@
   width: 20px;
   position: relative;
   top: -2px;
+}
+
+.nameHeader {
+  text-align: right;
+}
+
+.namesTable {
+  border-collapse: collapse;
+  font-size: 25px;
+}
+
+.namesTable tbody tr:nth-child(odd) {
+  background-color: #f7f7f7;
+}
+
+.namesTable tr td:first-child{
+  border-right: 1px solid #182236;
+  width: 50%;
+  padding: 10px;
+  text-align: right;
+
+}
+
+.namesTable tr td:last-child{
+  padding: 10px;
+  width: 50%;
+}
+
+.filter {
+  margin-bottom: 5px;
+  font-size: 15px;
+  padding: 5px;
+  text-align: center;
+}
+
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.rotating {
+  -webkit-animation: rotating 2s linear infinite;
+  -moz-animation: rotating 2s linear infinite;
+  -ms-animation: rotating 2s linear infinite;
+  -o-animation: rotating 2s linear infinite;
+  animation: rotating 2s linear infinite;
+}
+
+@media screen and (max-width: 1024px) {
+  .content {
+    padding: 0 16px;
+  }
+  .namesTable {
+    font-size: 15px;
+  }
 }

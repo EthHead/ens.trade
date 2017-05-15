@@ -103,43 +103,40 @@ class HomePage extends React.Component {
     const id = `button${Math.random()}`;
     return (
       <Layout className={s.content}>
-        <input type="text" onChange={this.filterChange} placeholder="filter" />
-        <h4>
-          Names for sale
-          {this.props.records.fetching ?
-            <span className={s.fetching}>
-              (Fetching {!this.props.records.totalRecords ?
-                <span>...</span>
-              : <span>{this.props.records.records.length} / {this.props.records.totalRecords}</span>
-              })
-            </span>
-          :
-            <span>
-              <img
-                onClick={this.refresh}
-                className={s.refreshImg}
-                src="/images/refresh.svg"
-                alt="refresh"
-                data-tip
-                data-for={id}
-              />
-              <ReactTooltip id={id}>
-                <span>Refresh</span>
-              </ReactTooltip>
-            </span>
-          }
-        </h4>
-        <table>
+        <input type="text" className={s.filter} onChange={this.filterChange} placeholder="filter" />
+        <table className={s.namesTable}>
           <thead>
             <tr>
-              <td onClick={this.setSort('name')}>Name</td>
+              <td onClick={this.setSort('name')}>
+                Name
+                {!this.props.records.fetching ?
+                  <span>
+                    <img
+                      onClick={this.refresh}
+                      className={s.refreshImg}
+                      src="/images/refresh.svg"
+                      alt="refresh"
+                      data-tip
+                      data-for={id}
+                    />
+                    <ReactTooltip id={id}>
+                      <span>Refresh</span>
+                    </ReactTooltip>
+                  </span>
+                :
+                  <img
+                    className={`${s.refreshImg} ${s.rotating}`}
+                    src="/images/refresh.svg"
+                    alt="loading"
+                  />}
+              </td>
               <td onClick={this.setSort('price')}>Sale Price</td>
             </tr>
           </thead>
           <tbody>
           {!this.state.filter && !this.state.sortedRecords.length ?
             <tr>
-              <td>{this.props.records.fetching ? <span>Fetching</span> : <span>No records found</span>}</td>
+              <td>{this.props.records.fetching ? <span>Fetching...</span> : <span>No records found</span>}</td>
             </tr>
           : null}
           {this.state.sortedRecords.filter(
@@ -157,6 +154,26 @@ class HomePage extends React.Component {
               <td />
             </tr>
            : null}
+           {this.props.records.totalRecords && this.props.records.fetching ?
+             <tr>
+               <td>
+                 <span className={s.fetching}>
+                   (Fetching {this.props.records.records.length} / {this.props.records.totalRecords})
+                  </span>
+               </td>
+               <td/>
+             </tr>
+            : null}
+            {this.props.records.fetched ?
+              <tr>
+                <td>
+                  <span className={s.fetching}>
+                    {this.state.sortedRecords.length} records found
+                  </span>
+                </td>
+                <td/>
+              </tr>
+             : null}
           </tbody>
         </table>
       </Layout>
