@@ -103,7 +103,7 @@ class HomePage extends React.Component {
     const id = `button${Math.random()}`;
     return (
       <Layout className={s.content}>
-        <input type="text" className={s.filter} onChange={this.filterChange} placeholder="filter" />
+        <input type="text" className={s.filter} onChange={this.filterChange} placeholder="search" />
         <table className={s.namesTable}>
           <thead>
             <tr>
@@ -151,7 +151,6 @@ class HomePage extends React.Component {
             <tr>
               <td><Link to={`/record/${this.state.filter.split('.')[0]}`}>{this.state.filter.split('.')[0]}.eth</Link></td>
               <td>Not for sale</td>
-              <td />
             </tr>
            : null}
            {this.props.records.totalRecords && this.props.records.fetching ?
