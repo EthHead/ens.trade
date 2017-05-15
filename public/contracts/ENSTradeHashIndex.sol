@@ -42,10 +42,10 @@ contract ENSTrade {
         string message;
     }
 
-    event TradeComplete(bytes32 indexed hash, address from, address to, uint value);
-    event OfferCreated(bytes32 indexed hash, address from, uint value);
+    event TradeComplete(bytes32 indexed hash, address from, address to, uint256 value);
+    event OfferCreated(bytes32 indexed hash, address from, uint256 value);
     event OfferCancelled(bytes32 indexed hash, address from);
-    event ListingCreated(bytes32 indexed hash, address from, uint buyPrice);
+    event ListingCreated(bytes32 indexed hash, address from, uint256 buyPrice);
     event ListingRemoved(bytes32 indexed hash, address from);
     event RecordReclaimed(bytes32 indexed hash, address to);
 
@@ -97,11 +97,10 @@ contract ENSTrade {
         return sha3(_string);
     }
 
-    function newListing(string _name, uint _buyPrice, string _message) {
+    function newListing(string _name, uint256 _buyPrice, string _message) {
         // Hashes the name and checks that the sender previously owned it
         bytes32 _hash = sha3(_name);
-        var (,_deedAddress,,,) = registrar.entries(_hash);
-        Deed d = Deed(_deedAddress);
+        Deed d = getDeed(_hash);
         if (d.owner() != address(this)) throw;
         if (d.previousOwner() != msg.sender) throw;
         if (_buyPrice == 0 || _buyPrice < minimumOfferPrice) throw; // For extra security
@@ -208,22 +207,27 @@ contract ENSTrade {
         delete offers[_hash][_offerAddress];
     }
 
+    function getDeed(bytes32 _hash) constant internal returns (Deed) {
+        var (,_deedAddress,,,) = registrar.entries(_hash);
+        return Deed(_deedAddress);
+    }
+
     function transferRecord(bytes32 _hash, address _toAddress, uint256 _value) internal {
         uint _fee = _value * fee / 10000;
         // Deed d = Deed(_deedAddress);
         totalRecordsTraded++;
         totalValueTraded += _value;
 
+        Deed d = getDeed(_hash);
+        address _previousOwner = d.previousOwner();
+
         registrar.transfer(_hash, _toAddress);
-        // d.setOwner(_toAddress);
         deleteRecord(_hash);
 
-        var (,_deedAddress,,,) = registrar.entries(_hash);
-        Deed d = Deed(_deedAddress);
-        d.previousOwner().transfer(_value - _fee);
+        _previousOwner.transfer(_value - _fee);
         feeAddress.transfer(_fee);
 
-        TradeComplete(_hash, d.previousOwner(), _toAddress, _value);
+        TradeComplete(_hash, _previousOwner, _toAddress, _value);
     }
 
     function getBuyPriceAndPreviousRecord(bytes32 _hash) constant returns (uint256, bytes32) {
@@ -239,8 +243,7 @@ contract ENSTrade {
 
     function getFullRecord(bytes32 _hash) constant returns(bool, string, uint256, bytes32, bytes32, string, address, address, uint256, uint256) {
         Record r = records[_hash];
-        var (,_deedAddress,,,) = registrar.entries(_hash);
-        Deed d = Deed(_deedAddress);
+        Deed d = getDeed(_hash);
         return (r.listed, r.name, r.buyPrice, r.nextRecord, r.previousRecord, r.message, d.owner(), d.previousOwner(), d.value(), d.creationDate());
     }
 
