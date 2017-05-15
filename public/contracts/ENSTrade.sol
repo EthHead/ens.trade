@@ -49,7 +49,7 @@ contract ENSTrade {
     event recordReclaimed(address indexed deedAddress, address to);
 
     address feeAddress;
-    uint public fee = 100; // Out of 10000 = 1%
+    uint public fee = 0; // Out of 10000 (0% for alpha)
     uint public minimumOfferPrice = 0.01 ether;
 
     uint public recordsCurrentlyListed;
