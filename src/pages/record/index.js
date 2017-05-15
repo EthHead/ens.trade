@@ -31,23 +31,28 @@ class HomePage extends React.Component {
 
   componentDidMount() {
     if (!this.props.ethereum.fetched) return;
-    this.props.dispatch(actions.ethereum.getName(this.props.route.params.name.toLowerCase()));
+    this.getRecord(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.ethereum.fetched) return;
     if (this.state.name !== nextProps.route.params.name.toLowerCase()) {
       this.setState({ name: nextProps.route.params.name.toLowerCase() });
-      nextProps.dispatch(actions.ethereum.getName(nextProps.route.params.name.toLowerCase()));
+      this.getRecord(nextProps);
     }
     if (nextProps.record.fetched) {
       if (nextProps.offers.fetched || nextProps.offers.fetching || nextProps.offers.fetchingError) return;
-      nextProps.dispatch(actions.ethereum.getOffers(nextProps.record.entry.deedAddress));
+      nextProps.dispatch(actions.ethereum.getOffers(nextProps.record.entry.hash));
       return;
     }
     if (nextProps.record.fetching || nextProps.record.fetchingError ) return;
-    nextProps.dispatch(actions.ethereum.getName(nextProps.route.params.name.toLowerCase()));
+    this.getRecord(nextProps);
   }
+
+  getRecord = (props) => {
+    props.dispatch(actions.ethereum.getName(props.route.params.name.toLowerCase()));
+  }
+
 
   transferToENSTrade = () => {
     this.props.dispatch(actions.ethereum.showPopup({
@@ -81,8 +86,8 @@ class HomePage extends React.Component {
       value: 0,
       gas: 200000,
       data: ethereumjsAbi.simpleEncode(
-        'deList(address)',
-        this.props.record.entry.deedAddress,
+        'deList(bytes32)',
+        this.props.record.entry.hash,
       ).toString('hex') }));
     // this.props.dispatch(actions.ethereum.deList(this.props.record.entry.deedAddress));
   }
@@ -93,8 +98,8 @@ class HomePage extends React.Component {
       value: 0,
       gas: 200000,
       data: ethereumjsAbi.simpleEncode(
-        'reclaim(address)',
-        this.props.record.entry.deedAddress,
+        'reclaim(bytes32)',
+        this.props.record.entry.hash,
       ).toString('hex') }));
     // this.props.dispatch(actions.ethereum.reclaim(this.props.record.entry.deedAddress));
   }
@@ -106,8 +111,8 @@ class HomePage extends React.Component {
         value: 0,
         gas: 200000,
         data: ethereumjsAbi.simpleEncode(
-          'acceptOffer(address,address,uint256)',
-          this.props.record.entry.deedAddress,
+          'acceptOffer(bytes32,address,uint256)',
+          this.props.record.entry.hash,
           offerAddress,
           offerValue.toString(),
         ).toString('hex') }));
@@ -120,8 +125,8 @@ class HomePage extends React.Component {
       value: 0,
       gas: 200000,
       data: ethereumjsAbi.simpleEncode(
-        'cancelOffer(address)',
-        this.props.record.entry.deedAddress,
+        'cancelOffer(bytes32)',
+        this.props.record.entry.hash,
       ).toString('hex') }));
     // this.props.dispatch(actions.ethereum.cancelOffer(this.props.record.entry.deedAddress));
   }
@@ -220,7 +225,10 @@ class HomePage extends React.Component {
     if (this.props.record.entry.deedAddress === zero) {
       return (
         <div>
-          This name has not been registered with the ENS. <a href={`https://registrar.ens.domains/#${this.state.name}`} target="_blank" rel="noreferrer noopener">Register it here</a>
+          This name has not been registered with the ENS.&nbsp;
+          {Ethereum.getNetwork() === 'mainnet' ?
+            <a href={`https://registrar.ens.domains/#${this.state.name}`} target="_blank" rel="noreferrer noopener">Register it here</a>
+          : null}
           {Ethereum.getNetwork() === 'kovan' ?
             <div className={s.dummyRegister}>
               You are on the kovan testnet.
@@ -267,7 +275,7 @@ class HomePage extends React.Component {
             <div>
               <h4>Offers</h4>
               {this.listOffers()}
-              <OfferForm deedAddress={this.props.record.entry.deedAddress} buyPrice={window.web3.fromWei(this.props.record.record.buyPrice).toString()}/>
+              <OfferForm hash={this.props.record.entry.hash} buyPrice={window.web3.fromWei(this.props.record.record.buyPrice).toString()}/>
             </div>
           </div>
         );
@@ -288,7 +296,7 @@ class HomePage extends React.Component {
   }
 
   refresh = () => {
-    this.props.dispatch(actions.ethereum.getName(this.props.route.params.name.toLowerCase()));
+    this.getRecord(this.props);
   }
 
   render() {
@@ -327,12 +335,13 @@ class HomePage extends React.Component {
         </h3>
         <hr />
         {this.listingData()}
-        {this.props.record.entry.deedAddress !== zero ?
+        {this.props.record.entry.hash !== zero ?
           <div>
             <h4>Information</h4>
+            <div>Hash: {this.props.record.entry.hash}</div>
             <div>Deed Address: <a href={`https://${Ethereum.getNetwork() === 'mainnet' ? '' : 'kovan'}.etherscan.io/address/${this.props.record.entry.deedAddress}`} target="_blank">{this.props.record.entry.deedAddress}</a></div>
             <div>Owner: <a href={`https://${Ethereum.getNetwork() === 'mainnet' ? '' : 'kovan'}.etherscan.io/address/${this.props.record.owner}`} target="_blank">{this.props.record.owner}</a> {this.props.record.owner === ENSTrade.getAddress() ? '(ens.trade)' : null}</div>
-            <div>Previous Owner: <a href={`https://${Ethereum.getNetwork() === 'mainnet' ? '' : 'kovan'}.etherscan.io/address/${this.props.record.previousOwner}`} target="_blank">{this.props.record.previousOwner}</a></div>
+            <div>Previous Owner: <a href={`https://${Ethereum.getNetwork() === 'mainnet' ? '' : 'kovan'}.etherscan.io/address/${this.props.record.previousOwner}`} target="_blank">{this.props.record.previousOwner}</a> {this.props.record.previousOwner === ENSTrade.getAddress() ? '(ens.trade)' : null}</div>
             <div>Locked value: {this.props.record.value.toString()} (Unlocks {new Date((this.props.record.creationDate * 1000) + lockTime).toString()})</div>
             <div>Sale Price: {window.web3.fromWei(this.props.record.record.buyPrice).toString()} ether</div>
             <div>Seller&#39;s Message: {(this.props.record.record.message ? this.props.record.record.message : '(none)')}</div>

@@ -214,6 +214,7 @@ const ethereum = () => {
           return;
         }
         entry = {
+          hash,
           deedAddress: result[1],
         };
         window.web3.eth.contract(deedAbi).at(entry.deedAddress, (deedError, deedContract) => {

@@ -83,12 +83,13 @@ export function getName(record) {
     .then(() => {
       if (nameResult.entry.deedAddress === zero) {
         return {
-          record: {}
+          record: {},
         };
       }
-      return ENSTrade.getRecord(nameResult.entry.deedAddress);
+      return ENSTrade.getRecord(nameResult.entry.hash);
     })
     .then((rec) => {
+      console.log('rec', rec);
       return {
         ...nameResult,
         record: rec,
@@ -97,20 +98,20 @@ export function getName(record) {
   };
 }
 
-export function getRecord(record) {
+export function getRecord(hash) {
   return {
     type: 'FETCH_RECORD',
-    payload: ENSTrade.getRecord(record)
+    payload: ENSTrade.getRecord(hash)
     .then((result) => {
       return result;
     }),
   };
 }
 
-export function getOffers(deedAddress) {
+export function getOffers(hash) {
   return {
     type: 'FETCH_OFFERS',
-    payload: ENSTrade.getOffers(deedAddress)
+    payload: ENSTrade.getOffers(hash)
     .then((result) => {
       return result;
     }),

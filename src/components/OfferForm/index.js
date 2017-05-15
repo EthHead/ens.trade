@@ -8,7 +8,7 @@ import actions from '../../actions';
 class OfferForm extends React.Component {
 
   static propTypes = {
-    deedAddress: React.PropTypes.string,
+    hash: React.PropTypes.string,
     buyPrice: React.PropTypes.string,
   };
 
@@ -35,8 +35,8 @@ class OfferForm extends React.Component {
       value: this.state.offerValue,
       gas: 200000,
       data: ethereumjsAbi.simpleEncode(
-        'newOffer(address,string)',
-        this.props.deedAddress,
+        'newOffer(bytes32,string)',
+        this.props.hash,
         this.state.offerMessage,
       ).toString('hex') }));
     /*

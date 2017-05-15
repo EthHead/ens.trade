@@ -12,17 +12,18 @@ import actions from '../../actions';
 // ensTrade 0x9b1a5dfe219e43517b150a7eef0d973a8dd9f339
 
 //eslint-disable-next-line
-const abi = [{"constant":true,"inputs":[],"name":"registrarAddress","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"},{"name":"_offerAddress","type":"address"},{"name":"_offerValue","type":"uint256"}],"name":"acceptOffer","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"},{"name":"_message","type":"string"}],"name":"newOffer","outputs":[],"payable":true,"type":"function"},{"constant":true,"inputs":[],"name":"totalRecordsTraded","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"deList","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalValueTraded","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"minimumOfferPrice","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"getRecord","outputs":[{"name":"","type":"bool"},{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"address"},{"name":"","type":"address"},{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_fee","type":"uint256"}],"name":"setFee","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"},{"name":"_buyPrice","type":"uint256"},{"name":"_message","type":"string"}],"name":"newListing","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_string","type":"string"}],"name":"sha","outputs":[{"name":"","type":"bytes32"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"getRecordOffers","outputs":[{"name":"","type":"address"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_feeAddress","type":"address"}],"name":"setFeeAddress","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"recordsCurrentlyListed","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"cancelOffer","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_deedAddress","type":"address"},{"name":"_offerAddress","type":"address"}],"name":"getOffer","outputs":[{"name":"","type":"address"},{"name":"","type":"address"},{"name":"","type":"uint256"},{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_minimumOfferPrice","type":"uint256"}],"name":"setMinimumOfferPrice","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"fee","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"lastRecord","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_deedAddress","type":"address"}],"name":"reclaim","outputs":[],"payable":false,"type":"function"},{"inputs":[{"name":"_registrarAddress","type":"address"}],"payable":false,"type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"deedAddress","type":"address"},{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"tradeComplete","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"deedAddress","type":"address"},{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"offerCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"deedAddress","type":"address"},{"indexed":false,"name":"from","type":"address"}],"name":"offerCancelled","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"deedAddress","type":"address"},{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"buyPrice","type":"uint256"}],"name":"listingCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"deedAddress","type":"address"},{"indexed":false,"name":"from","type":"address"}],"name":"listingRemoved","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"deedAddress","type":"address"},{"indexed":false,"name":"to","type":"address"}],"name":"recordReclaimed","type":"event"}];
+const abi = [{"constant":true,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"getRecord","outputs":[{"name":"","type":"bool"},{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"bytes32"},{"name":"","type":"bytes32"},{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"getRecordOffers","outputs":[{"name":"","type":"address"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalRecordsTraded","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"totalValueTraded","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"minimumOfferPrice","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_hash","type":"bytes32"},{"name":"_offerAddress","type":"address"}],"name":"getOffer","outputs":[{"name":"","type":"address"},{"name":"","type":"address"},{"name":"","type":"uint256"},{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"deList","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"},{"name":"_message","type":"string"}],"name":"newOffer","outputs":[],"payable":true,"type":"function"},{"constant":true,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"getBuyPriceAndPreviousRecord","outputs":[{"name":"","type":"uint256"},{"name":"","type":"bytes32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_fee","type":"uint256"}],"name":"setFee","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"},{"name":"_offerAddress","type":"address"},{"name":"_offerValue","type":"uint256"}],"name":"acceptOffer","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_name","type":"string"},{"name":"_buyPrice","type":"uint256"},{"name":"_message","type":"string"}],"name":"newListing","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_string","type":"string"}],"name":"sha","outputs":[{"name":"","type":"bytes32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_feeAddress","type":"address"}],"name":"setFeeAddress","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"recordsCurrentlyListed","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"reclaim","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_minimumOfferPrice","type":"uint256"}],"name":"setMinimumOfferPrice","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"fee","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"lastRecord","outputs":[{"name":"","type":"bytes32"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"cancelOffer","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_hash","type":"bytes32"}],"name":"getFullRecord","outputs":[{"name":"","type":"bool"},{"name":"","type":"string"},{"name":"","type":"uint256"},{"name":"","type":"bytes32"},{"name":"","type":"bytes32"},{"name":"","type":"string"},{"name":"","type":"address"},{"name":"","type":"address"},{"name":"","type":"uint256"},{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"_registrarAddress","type":"address"}],"payable":false,"type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"hash","type":"bytes32"},{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"TradeComplete","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"hash","type":"bytes32"},{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"OfferCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"hash","type":"bytes32"},{"indexed":false,"name":"from","type":"address"}],"name":"OfferCancelled","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"hash","type":"bytes32"},{"indexed":false,"name":"from","type":"address"},{"indexed":false,"name":"buyPrice","type":"uint256"}],"name":"ListingCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"hash","type":"bytes32"},{"indexed":false,"name":"from","type":"address"}],"name":"ListingRemoved","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"hash","type":"bytes32"},{"indexed":false,"name":"to","type":"address"}],"name":"RecordReclaimed","type":"event"}];
 
 let address;
 const mainnetAddress = '0x0000000000000000000000000000000000000000';
-const kovanAddress = '0xe6ec0baea762f4fbce6c3e2c6c17c62091a86c09';
+const kovanAddress = '0x59e611e14e8723cb3cdcd9cea6f274fb57d0d5a4';
 
 let contract;
 
 const records = [];
 
-const zero = '0x0000000000000000000000000000000000000000';
+const zeroBytes32 = '0x0000000000000000000000000000000000000000000000000000000000000000';
+const zeroAddress = '0x0000000000000000000000000000000000000000';
 
 export function getAddress() {
   return address;
@@ -30,32 +31,6 @@ export function getAddress() {
 
 export function getRecords() {
   return records;
-}
-
-export function updateNextRecord(nextRecord) {
-  contract.getRecord(nextRecord, (recordError, recordResult) => {
-    const rec = {
-      listed: recordResult[0],
-      deedAddress: nextRecord,
-      name: recordResult[1],
-      buyPrice: recordResult[2],
-      nextRecord: recordResult[3],
-      previousRecord: recordResult[4],
-      buyPriceETH: window.web3.fromWei(recordResult[2]).toNumber(),
-    };
-    records.push(rec);
-    if (rec.previousRecord !== zero) {
-      nextRecord = rec.previousRecord;
-      if (nextRecord === zero) {
-        resolve(records);
-      } else {
-        getNextRecord();
-      }
-    } else {
-      resolve(records);
-      // callback(records);
-    }
-  });
 }
 
 export function updateRecords() {
@@ -67,11 +42,16 @@ export function updateRecords() {
       contract.getRecord(nextRecord, (recordError, recordResult) => {
         const rec = {
           listed: recordResult[0],
-          deedAddress: nextRecord,
+          hash: nextRecord,
           name: recordResult[1],
           buyPrice: recordResult[2],
           nextRecord: recordResult[3],
           previousRecord: recordResult[4],
+          message: recordResult[5],
+          // owner: recordResult[6],
+          // previousOwner: recordResult[7],
+          // value: recordResult[8],
+          // creationDate: recordResult[9],
           buyPriceETH: window.web3.fromWei(recordResult[2]).toNumber(),
         };
         records.push(rec);
@@ -79,9 +59,9 @@ export function updateRecords() {
           totalRecords,
           records,
         }));
-        if (rec.previousRecord !== zero) {
+        if (rec.previousRecord !== zeroBytes32) {
           nextRecord = rec.previousRecord;
-          if (nextRecord === zero) {
+          if (nextRecord === zeroBytes32) {
             resolve(records);
           } else {
             getNextRecord();
@@ -97,23 +77,22 @@ export function updateRecords() {
       //store.dispatch(actions.ethereum.recordsCurrentListedUpdated(listedResult));
       contract.lastRecord((err, result) => {
         nextRecord = result;
-        if (nextRecord === zero) {
+        if (nextRecord === zeroAddress) {
           resolve(records);
         } else {
           getNextRecord();
         }
       });
     });
-
   });
 }
 
-export function getOffers(deedAddress) {
+export function getOffers(hash) {
   return new Promise((resolve, reject) => {
     let nextOffer;
     const offers = [];
     function getNextOffer() {
-      contract.getOffer(deedAddress, nextOffer, (err, result) => {
+      contract.getOffer(hash, nextOffer, (err, result) => {
         offers.push({
           address: nextOffer,
           nextOffer: result[0],
@@ -121,7 +100,7 @@ export function getOffers(deedAddress) {
           value: result[2],
           message: result[3],
         });
-        if (result[1] !== zero) {
+        if (result[1] !== zeroAddress) {
           nextOffer = result[1];
           getNextOffer();
         } else {
@@ -129,13 +108,13 @@ export function getOffers(deedAddress) {
         }
       });
     }
-    contract.getRecordOffers(deedAddress, (err, result) => {
+    contract.getRecordOffers(hash, (err, result) => {
       if (err) {
         reject(err);
         return;
       }
       nextOffer = result[0];
-      if (nextOffer === zero) {
+      if (nextOffer === zeroAddress) {
         resolve(offers);
       } else {
         getNextOffer();
@@ -160,9 +139,9 @@ export function newListing(name, buyPrice, message) {
   });
 }
 
-export function newOffer(deedAddress, message, value) {
+export function newOffer(hash, message, value) {
   return new Promise((resolve, reject) => {
-    contract.newOffer(deedAddress, message, { value }, (err, result) => {
+    contract.newOffer(hash, message, { value }, (err, result) => {
       if (err) {
         reject(err);
         return;
@@ -172,9 +151,9 @@ export function newOffer(deedAddress, message, value) {
   });
 }
 
-export function acceptOffer(deedAddress, offerAddress, offerValue) {
+export function acceptOffer(hash, offerAddress, offerValue) {
   return new Promise((resolve, reject) => {
-    contract.acceptOffer(deedAddress, offerAddress, offerValue, (err, result) => {
+    contract.acceptOffer(hash, offerAddress, offerValue, (err, result) => {
       if (err) {
         reject(err);
         return;
@@ -184,9 +163,9 @@ export function acceptOffer(deedAddress, offerAddress, offerValue) {
   });
 }
 
-export function cancelOffer(deedAddress) {
+export function cancelOffer(hash) {
   return new Promise((resolve, reject) => {
-    contract.cancelOffer(deedAddress, (err, result) => {
+    contract.cancelOffer(hash, (err, result) => {
       if (err) {
         reject(err);
         return;
@@ -196,9 +175,9 @@ export function cancelOffer(deedAddress) {
   });
 }
 
-export function deList(deedAddress) {
+export function deList(hash) {
   return new Promise((resolve, reject) => {
-    contract.deList(deedAddress, (err, result) => {
+    contract.deList(hash, (err, result) => {
       if (err) {
         reject(err);
         return;
@@ -208,9 +187,9 @@ export function deList(deedAddress) {
   });
 }
 
-export function reclaim(deedAddress) {
+export function reclaim(hash) {
   return new Promise((resolve, reject) => {
-    contract.reclaim(deedAddress, (err, result) => {
+    contract.reclaim(hash, (err, result) => {
       if (err) {
         reject(err);
         return;
@@ -236,18 +215,24 @@ export function getRecord(record) {
   console.log('Fetching record', record);
   return new Promise((resolve, reject) => {
     contract.getRecord(record, (err, result) => {
+      console.log(record,'1',err,result);
       if (err) {
         reject(err);
         return;
       }
+      console.log('2');
       resolve({
-        deedAddress: record,
+        hash: record,
         listed: result[0],
         name: result[1],
         buyPrice: result[2],
         nextRecord: result[3],
         previousRecord: result[4],
         message: result[5],
+        // owner: result[6],
+        // previousOwner: result[7],
+        // value: result[8],
+        // creationDate: result[9],
         buyPriceETH: window.web3.fromWei(result[2]).toNumber(),
       });
     });
@@ -260,8 +245,8 @@ export function getRecordOffers(offer, callback) {
   });
 }
 
-export function getOffer(offer, callback) {
-  contract.getOffer(offer, (err, result) => {
+export function getOffer(hash, offerAddress, callback) {
+  contract.getOffer(hash, (offerAddress, result) => {
     callback(err, result);
   });
 }

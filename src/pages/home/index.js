@@ -145,10 +145,10 @@ class HomePage extends React.Component {
           {this.state.sortedRecords.filter(
             record => `${record.name}.eth`.includes(this.state.filter.split('.')[0]),
           ).map(record =>
-            <tr key={record.deedAddress}>
+            <tr key={record.hash}>
               <td><Link to={`/record/${record.name}`}>{record.name}.eth</Link></td>
               <td>{record.buyPriceETH} ether</td>
-              <td><a href={`https://${Ethereum.getNetwork() === 'mainnet' ? '' : 'kovan'}.etherscan.io/address/${record.deedAddress}`} target="_blank" rel="noopener noreferrer">{record.deedAddress}</a></td>
+              <td><a href={`https://${Ethereum.getNetwork() === 'mainnet' ? '' : 'kovan'}.etherscan.io/address/${record.hash}`} target="_blank" rel="noopener noreferrer">{record.hash}</a></td>
             </tr>,
           )}
           {this.showDummyName() ?
