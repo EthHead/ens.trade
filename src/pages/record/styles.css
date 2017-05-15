@@ -13,6 +13,10 @@
   display: inline-block;
 }
 
+.nameStatus {
+  color: #17b517;
+}
+
 .refresh {
   cursor: pointer;
   display: inline-block;
@@ -24,6 +28,30 @@
   width: 20px;
   position: relative;
   top: -2px;
+}
+
+.offersTable {
+  border-collapse: collapse;
+}
+
+.offersTable tr td {
+  padding: 0 5px;
+}
+
+.information {
+  float: left;
+}
+
+.sellerOptions {
+  float: left;
+}
+
+.offersTable tbody tr:nth-child(odd) {
+  background-color: #f7f7f7;
+}
+
+.offerAmount {
+  font-size: 25px;
 }
 
 .dummyRegister {
@@ -46,4 +74,14 @@
 
 .spaceDown {
   padding-top: 20px;
+}
+
+.breakWord {
+  word-break: break-all;
+}
+
+@media screen and (max-width: 700px) {
+  .offerAmount {
+    font-size: 15px;
+  }
 }

@@ -4,6 +4,7 @@ import ethereumjsAbi from 'ethereumjs-abi';
 import * as ENSTrade from '../ENSTrade';
 import Button from '../Button';
 import actions from '../../actions';
+import s from './styles.css';
 
 class OfferForm extends React.Component {
 
@@ -58,14 +59,16 @@ class OfferForm extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
-        <h4>Make Offer</h4>
+      <form onSubmit={this.onSubmit} className={s.offerForm}>
+        <h4 className={s.title}>Make Offer</h4>
         <label htmlFor="offerValue">Amount (in ether)</label>
         <input id="offerValue" type="number" step="any" value={this.state.offerValue} onChange={this.changeValue} />
         <label htmlFor="offerMessage">Message (optional)</label>
-        <input id="offerMessage" type="text" value={this.state.offerMessage} onChange={this.changeMessage} />
-        <div>Making an offer will store the ether in the ens.trade smart contract. If your offer is above the sale price, or the seller accepts, the ENS name will be instantly transferred to you. You can cancel your offer at anytime and reclaim your eth.</div>
-        <Button text="Make Offer" type="submit" onClick={this.onSubmit} />
+        <input id="offerMessage" type="text" value={this.state.offerMessage} onChange={this.changeMessage} maxLength={32} />
+        <div className={s.button}>
+          <Button text="Make Offer" type="submit" onClick={this.onSubmit} />
+        </div>
+        <div className={s.description}>Making an offer will store the ether in the ens.trade smart contract. If your offer is above the sale price, or the seller accepts, the ENS name will be instantly transferred to you. You can cancel your offer at anytime and reclaim your eth.</div>
       </form>
     );
   }

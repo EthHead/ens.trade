@@ -144,11 +144,11 @@ class HomePage extends React.Component {
       return (<div>No offers yet</div>);
     }
     return (
-      <table>
+      <table className={s.offersTable}>
         <thead>
           <tr>
             <td>Amount</td>
-            <td>Address</td>
+            <td>Address / Message</td>
             <td />
           </tr>
         </thead>
@@ -157,8 +157,11 @@ class HomePage extends React.Component {
             (a, b) => a.value > b.value,
           ).map(offer =>
             <tr key={offer.address}>
-              <td>{window.web3.fromWei(offer.value).toString()} ETH</td>
-              <td>{Address(offer.address)}</td>
+              <td className={s.offerAmount}>{window.web3.fromWei(offer.value).toString()} ETH</td>
+              <td className={s.offerInfo}>
+                <div>{Address(offer.address)}</div>
+                  <div>{offer.message}</div>
+              </td>
               <td>
                 <Button
                   text="Accept"
@@ -271,8 +274,7 @@ class HomePage extends React.Component {
       } else {
         return (
           <div>
-            <h4>This name is for sale! Buy it instantly for {window.web3.fromWei(this.props.record.record.buyPrice).toString()} ether</h4>
-            <div>.. or make a custom offer</div>
+            <div className={s.buy}>Buy {this.state.name}.eth instantly for {window.web3.fromWei(this.props.record.record.buyPrice).toString()} ether, or make a custom offer below</div>
             <div>
               <h4>Offers</h4>
               {this.listOffers()}
@@ -315,12 +317,13 @@ class HomePage extends React.Component {
         </Layout>
       );
     }
+    const nameStatus = (this.props.record.ownedByENSTrade && this.props.record.record.listed ? 'is for sale!' : null);
     const id = `button${Math.random()}`;
     return (
       <Layout className={s.content}>
         <h3>
           <div className={s.title}>
-            {this.state.name}.eth
+            {this.state.name}.eth <span className={s.nameStatus}>{nameStatus}</span>
             <img
               onClick={this.refresh}
               className={s.refreshImg}
@@ -337,9 +340,9 @@ class HomePage extends React.Component {
         <hr />
         {this.listingData()}
         {this.props.record.entry.deedAddress !== zero ?
-          <div>
+          <div className={s.information}>
             <h4>Information</h4>
-            <div>Hash: {this.props.record.entry.hash}</div>
+            <div className={s.breakWord}>Hash: {this.props.record.entry.hash}</div>
             <div>Deed Address: {Address(this.props.record.entry.deedAddress)}</div>
             <div>Owner: {Address(this.props.record.owner)}</div>
             <div>Previous Owner: {Address(this.props.record.previousOwner)}</div>
@@ -349,8 +352,8 @@ class HomePage extends React.Component {
           </div>
         : null }
         {(this.props.record.ownedByENSTrade && this.props.record.record.listed ?
-          <div>
-            <h4>Other Options</h4>
+          <div className={s.sellerOptions}>
+            <h4>Seller Options</h4>
             <div>
               <Button
                 text="Delist this name from sale"

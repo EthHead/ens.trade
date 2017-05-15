@@ -1,0 +1,19 @@
+.offerForm {
+  float: left;
+  margin: 30px 30px 0 0;
+  max-width: 300px;
+  background-color: #f7f7f7;
+  padding: 0 20px 20px 20px;
+}
+
+.title {
+
+}
+
+.description {
+  text-align: justify;
+}
+
+.button {
+  text-align: center;
+}
