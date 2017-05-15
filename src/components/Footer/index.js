@@ -12,9 +12,6 @@ function Footer() {
           <li><a href="https://www.reddit.com/message/compose/?to=eth-head" target="_blank" rel="noopener noreferrer">Contact</a></li>
         </ul>
       </div>
-      <div className="mdl-mini-footer__left-section">
-        <div className="mdl-logo">ens.trade</div>
-      </div>
       <div className="mdl-mini-footer__right-section">
         <ul className="mdl-mini-footer__link-list">
           <li className="mdl-mini-footer--social-btn" style={{ backgroundColor: 'transparent' }}>
