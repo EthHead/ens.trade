@@ -9,6 +9,11 @@
   display: inline-block;
 }
 
+.fetching {
+  margin-left: 10px;
+  font-size: 14px;
+}
+
 .refreshImg {
   cursor: pointer;
   margin-left: 10px;

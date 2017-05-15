@@ -13,6 +13,39 @@ export function init() {
   };
 }
 
+export function updateNextRecord(record) {
+  console.log('next',record);
+  return {
+    type: 'UPDATE_NEXT_RECORD',
+    payload: ENSTrade.updateNextRecord(record)
+    .then((result) => {
+      console.log('updatenext',result);
+      return result;
+    }),
+  };
+}
+
+export function updateRecordsLive() {
+  let nextRecord;
+  function tryNextRecord(record) {
+    nextRecord = record;
+    // Grab data here
+    if (nextRecord.previousRecord !== zero) {
+      tryNextRecord(nextRecord.previousRecord);
+    } else {
+      return true;
+    }
+  };
+  return {
+    type: 'UPDATE_RECORDS_LIVE',
+    payload: ENSTrade.getLastRecord()
+    .then((record) => {
+      return tryNextRecord(record);
+      // return updateNextRecord(record);
+    })
+  };
+}
+
 export function updateRecords() {
   return {
     type: 'UPDATE_RECORDS',
@@ -21,6 +54,20 @@ export function updateRecords() {
       // console.log(records);
       return true;
     }),
+  };
+}
+
+export function recordsCurrentListedUpdated(count) {
+  return {
+    type: 'RECORDS_CURRENTLY_LISTED_UPDATED',
+    payload: Promise.resolve(count),
+  };
+}
+
+export function recordsUpdated(records) {
+  return {
+    type: 'RECORDS_UPDATED',
+    payload: Promise.resolve(records),
   };
 }
 

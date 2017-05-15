@@ -2,6 +2,9 @@ import ethereumjsAbi from 'ethereumjs-abi';
 
 import Ethereum from '../Ethereum';
 
+import store from '../../store';
+import actions from '../../actions';
+
 // 0x528596380eead3b76ef73447f27995af8909c086
 
 // RINKEBY
@@ -29,7 +32,33 @@ export function getRecords() {
   return records;
 }
 
+export function updateNextRecord(nextRecord) {
+  contract.getRecord(nextRecord, (recordError, recordResult) => {
+    const rec = {
+      listed: recordResult[0],
+      deedAddress: nextRecord,
+      name: recordResult[1],
+      buyPrice: recordResult[2],
+      nextRecord: recordResult[3],
+      previousRecord: recordResult[4],
+    };
+    records.push(rec);
+    if (rec.previousRecord !== zero) {
+      nextRecord = rec.previousRecord;
+      if (nextRecord === zero) {
+        resolve(records);
+      } else {
+        getNextRecord();
+      }
+    } else {
+      resolve(records);
+      // callback(records);
+    }
+  });
+}
+
 export function updateRecords() {
+  let totalRecords = 0;
   return new Promise((resolve, reject) => {
     records.length = 0;
     let nextRecord;
@@ -44,6 +73,10 @@ export function updateRecords() {
           previousRecord: recordResult[4],
         };
         records.push(rec);
+        store.dispatch(actions.ethereum.recordsUpdated({
+          totalRecords,
+          records
+        }));
         if (rec.previousRecord !== zero) {
           nextRecord = rec.previousRecord;
           if (nextRecord === zero) {
@@ -57,14 +90,19 @@ export function updateRecords() {
         }
       });
     };
-    contract.lastRecord((err, result) => {
-      nextRecord = result;
-      if (nextRecord === zero) {
-        resolve(records);
-      } else {
-        getNextRecord();
-      }
+    contract.recordsCurrentlyListed((listedErr, listedResult) => {
+      totalRecords = listedResult;
+      //store.dispatch(actions.ethereum.recordsCurrentListedUpdated(listedResult));
+      contract.lastRecord((err, result) => {
+        nextRecord = result;
+        if (nextRecord === zero) {
+          resolve(records);
+        } else {
+          getNextRecord();
+        }
+      });
     });
+
   });
 }
 
@@ -177,6 +215,12 @@ export function reclaim(deedAddress) {
       }
       resolve(result);
     });
+  });
+}
+
+export function getRecordsListedCount(callback) {
+  contract.recordsCurrentlyListed((err, result) => {
+    callback(err, result);
   });
 }
 

@@ -2,6 +2,7 @@ const initialState = {
   fetching: false,
   fetchingError: null,
   fetched: false,
+  totalRecords: 0,
   records: [],
 };
 
@@ -13,10 +14,19 @@ export default function reducer(state = initialState, action) {
         fetching: true,
       };
     }
+    case 'RECORDS_UPDATED_FULFILLED': {
+      return {
+        ...initialState,
+        fetching: true,
+        totalRecords: action.payload.totalRecords.toNumber(),
+        records: action.payload.records,
+      };
+    }
     case 'UPDATE_RECORDS_FULFILLED': {
       return {
         ...initialState,
         fetched: true,
+        totalRecords: action.payload.length,
         records: action.payload,
       };
     }

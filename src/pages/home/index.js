@@ -96,19 +96,29 @@ class HomePage extends React.Component {
         <input type="text" onChange={this.filterChange} placeholder="filter" />
         <h4>
           Names for sale
-          <img
-            onClick={this.refresh}
-            className={s.refreshImg}
-            src="/images/refresh.svg"
-            alt="refresh"
-            data-tip
-            data-for={id}
-          />
-          <ReactTooltip id={id}>
-            <span>Refresh</span>
-          </ReactTooltip>
+          {this.props.records.fetching ?
+            <span className={s.fetching}>
+              (Fetching {!this.props.records.totalRecords ?
+                <span>...</span>
+              : <span>{this.props.records.records.length} / {this.props.records.totalRecords}</span>
+              })
+            </span>
+          :
+            <span>
+              <img
+                onClick={this.refresh}
+                className={s.refreshImg}
+                src="/images/refresh.svg"
+                alt="refresh"
+                data-tip
+                data-for={id}
+              />
+              <ReactTooltip id={id}>
+                <span>Refresh</span>
+              </ReactTooltip>
+            </span>
+          }
         </h4>
-        {this.props.records.fetching ? <div>Fetching names...</div> :
         <table>
           <thead>
             <tr>
@@ -120,7 +130,7 @@ class HomePage extends React.Component {
           <tbody>
           {!this.state.filter && !this.state.sortedRecords.length ?
             <tr>
-              <td>No records found</td>
+              <td>{this.props.records.fetching ? <span>Fetching</span> : <span>No records found</span>}</td>
             </tr>
           : null}
           {this.state.sortedRecords.filter(
@@ -141,7 +151,6 @@ class HomePage extends React.Component {
            : null}
           </tbody>
         </table>
-        }
       </Layout>
     );
   }
