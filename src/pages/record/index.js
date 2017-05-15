@@ -220,8 +220,7 @@ class HomePage extends React.Component {
     if (this.props.record.entry.deedAddress === zero) {
       return (
         <div>
-          This name has not been registered with the ENS. <a href={`https://registrar.
-            /#${this.state.name}`} target='_blank'>Register it here</a>
+          This name has not been registered with the ENS. <a href={`https://registrar.ens.domains/#${this.state.name}`} target="_blank" rel="noreferrer noopener">Register it here</a>
           {Ethereum.getNetwork() === 'kovan' ?
             <div className={s.dummyRegister}>
               You are on the kovan testnet.
