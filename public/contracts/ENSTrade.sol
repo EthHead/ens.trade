@@ -64,7 +64,7 @@ contract ENSTrade {
     address public lastRecord;
 
     modifier onlyOwner(address _deedAddress) {
-        // Check who owns the using the previousOwner() function, as ens.trade currently own it.
+        // Check who owns the name using the previousOwner() function, as ens.trade should currently owns it.
         Deed d = Deed(_deedAddress);
         if (d.owner() != address(this)) throw;
         if (d.previousOwner() != msg.sender) throw;
@@ -186,7 +186,7 @@ contract ENSTrade {
 
     function acceptOffer(address _deedAddress, address _offerAddress, uint _offerValue) onlyOwner(_deedAddress) {
         Offer o = offers[_deedAddress][_offerAddress];
-        if (o.value != _offerValue) throw; // For extra security and race conditions
+        if (o.value != _offerValue || o.value == 0) throw; // For extra security and race conditions
 
         Record r = records[_deedAddress];
         if (!r.listed) throw;
