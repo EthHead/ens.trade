@@ -16,7 +16,7 @@ class HomePage extends React.Component {
     super(props);
     this.state = {
       filter: '',
-      sortBy: '',
+      sortBy: 'price',
       sortDir: 'asc',
       sortedRecords: [],
     };
@@ -33,7 +33,7 @@ class HomePage extends React.Component {
     if (!ENSTrade.getRecords().length) {
       this.props.dispatch(actions.ethereum.updateRecords());
     } else {
-      this.sortRecords('price')();
+      this.sortRecords()();
     }
   }
 
@@ -43,29 +43,38 @@ class HomePage extends React.Component {
         this.props.dispatch(actions.ethereum.updateRecords());
       }
     }
-    this.sortRecords('price')();
+    this.sortRecords()();
   }
 
-  sortRecords = (sortBy) => {
+  setSort = (sortBy) => {
     return () => {
       const sortDir = this.state.sortDir === 'asc' ? 'desc' : 'asc';
+      this.setState({ sortBy, sortDir }, () => {
+        this.sortRecords()();
+      });
+    };
+  }
+
+  sortRecords = () => {
+    return () => {
       const sortedRecords = ENSTrade.getRecords();
-      if (sortBy === 'price') {
-        if (sortDir === 'asc') {
-          sortedRecords.sort((a, b) => a.buyPrice < b.buyPrice);
-        } else {
-          sortedRecords.sort((a, b) => a.buyPrice > b.buyPrice);
-        }
-      } else if (sortBy === 'name') {
-        if (sortDir === 'asc') {
+      if (this.state.sortBy === 'name') {
+        //console.log('wtf',window.web3.fromWei(sortedRecords[0].buyPrice).toNumber());
+        if (this.state.sortDir === 'asc') {
           sortedRecords.sort((a, b) => a.name < b.name);
         } else {
           sortedRecords.sort((a, b) => a.name > b.name);
         }
       } else {
-        sortedRecords.sort((a, b) => a.buyPrice > b.buyPrice);
+        if (this.state.sortDir === 'asc') {
+          sortedRecords.sort((a, b) => {
+            return a.buyPriceETH > b.buyPriceETH;
+          });
+        } else {
+          sortedRecords.sort((a, b) => a.buyPriceETH < b.buyPriceETH);
+        }
       }
-      this.setState({ sortedRecords, sortBy, sortDir });
+      this.setState({ sortedRecords });
     };
   }
 
@@ -122,8 +131,8 @@ class HomePage extends React.Component {
         <table>
           <thead>
             <tr>
-              <td onClick={this.sortRecords('name')}>Name</td>
-              <td onClick={this.sortRecords('price')}>Sale Price</td>
+              <td onClick={this.setSort('name')}>Name</td>
+              <td onClick={this.setSort('price')}>Sale Price</td>
               <td>Deed Address</td>
             </tr>
           </thead>
@@ -138,7 +147,7 @@ class HomePage extends React.Component {
           ).map(record =>
             <tr key={record.deedAddress}>
               <td><Link to={`/record/${record.name}`}>{record.name}.eth</Link></td>
-              <td>{window.web3.fromWei(record.buyPrice).toString()} ether</td>
+              <td>{record.buyPriceETH} ether</td>
               <td><a href={`https://${Ethereum.getNetwork() === 'mainnet' ? '' : 'kovan'}.etherscan.io/address/${record.deedAddress}`} target="_blank" rel="noopener noreferrer">{record.deedAddress}</a></td>
             </tr>,
           )}

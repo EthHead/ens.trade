@@ -41,6 +41,7 @@ export function updateNextRecord(nextRecord) {
       buyPrice: recordResult[2],
       nextRecord: recordResult[3],
       previousRecord: recordResult[4],
+      buyPriceETH: window.web3.fromWei(recordResult[2]).toNumber(),
     };
     records.push(rec);
     if (rec.previousRecord !== zero) {
@@ -71,11 +72,12 @@ export function updateRecords() {
           buyPrice: recordResult[2],
           nextRecord: recordResult[3],
           previousRecord: recordResult[4],
+          buyPriceETH: window.web3.fromWei(recordResult[2]).toNumber(),
         };
         records.push(rec);
         store.dispatch(actions.ethereum.recordsUpdated({
           totalRecords,
-          records
+          records,
         }));
         if (rec.previousRecord !== zero) {
           nextRecord = rec.previousRecord;
@@ -246,6 +248,7 @@ export function getRecord(record) {
         nextRecord: result[3],
         previousRecord: result[4],
         message: result[5],
+        buyPriceETH: window.web3.fromWei(result[2]).toNumber(),
       });
     });
   });
