@@ -101,6 +101,10 @@ class HomePage extends React.Component {
   }
 
   refresh = () => {
+    this.setState({
+      sortBy: 'id',
+      sortDir: 'asc',
+    });
     this.props.dispatch(actions.ethereum.updateRecords());
   }
 
@@ -160,13 +164,23 @@ class HomePage extends React.Component {
             record => `${record.name}.eth`.includes(this.state.filter.split('.')[0]),
           ).map(record =>
             <tr key={record.hash}>
-              <td><Link to={`/record/${record.name}`}>{record.name}.eth</Link></td>
+              <td>
+                <Link
+                  to={`/name/${record.name}`}
+                  className={s.name}
+                  data-tip
+                  data-for={`view${record.name}`}
+                >{record.name}.eth</Link>
+                <ReactTooltip id={`view${record.name}`}>
+                  <span>View {record.name}.eth</span>
+                </ReactTooltip>
+              </td>
               <td>{record.buyPriceETH} ether</td>
             </tr>,
           )}
           {this.showDummyName() ?
             <tr>
-              <td><Link to={`/record/${this.state.filter.split('.')[0]}`}>{this.state.filter.split('.')[0]}.eth</Link></td>
+              <td><Link to={`/name/${this.state.filter.split('.')[0]}`}>{this.state.filter.split('.')[0]}.eth</Link></td>
               <td>Not for sale</td>
             </tr>
            : null}

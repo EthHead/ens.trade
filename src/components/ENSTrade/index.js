@@ -5,6 +5,8 @@ import Ethereum from '../Ethereum';
 import store from '../../store';
 import actions from '../../actions';
 
+import axios from 'axios';
+
 // 0x528596380eead3b76ef73447f27995af8909c086
 
 // RINKEBY
@@ -20,7 +22,7 @@ const kovanAddress = '0xdbf71dd64a6a20ca9f2fdd36b46a584850979112';
 
 let contract;
 
-const records = [];
+let records = [];
 
 const zeroBytes32 = '0x0000000000000000000000000000000000000000000000000000000000000000';
 const zeroAddress = '0x0000000000000000000000000000000000000000';
@@ -33,56 +35,73 @@ export function getRecords() {
   return records;
 }
 
+export function getRecordsFromFile() {
+  return axios.get('/records.json')
+  .then((response) => {
+    if (response && response.statusText === 'OK') {
+      return response.data;
+    }
+    return null;
+  });
+}
+
 export function updateRecords() {
   let totalRecords = 0;
   return new Promise((resolve, reject) => {
-    records.length = 0;
-    let nextRecord;
-    const getNextRecord = () => {
-      contract.getRecord(nextRecord, (recordError, recordResult) => {
-        const rec = {
-          id: records.length,
-          listed: recordResult[0],
-          hash: nextRecord,
-          name: recordResult[1],
-          buyPrice: recordResult[2],
-          nextRecord: recordResult[3],
-          previousRecord: recordResult[4],
-          message: recordResult[5],
-          // owner: recordResult[6],
-          // previousOwner: recordResult[7],
-          // value: recordResult[8],
-          // creationDate: recordResult[9],
-          buyPriceETH: window.web3.fromWei(recordResult[2]).toNumber(),
-        };
-        records.push(rec);
-        store.dispatch(actions.ethereum.recordsUpdated({
-          totalRecords,
-          records,
-        }));
-        if (rec.previousRecord !== zeroBytes32) {
-          nextRecord = rec.previousRecord;
+    getRecordsFromFile().then((result) => {
+      console.log('fromFile', result);
+      if (result) {
+        records = result;
+        return resolve(result);
+      }
+      records = [];
+      let nextRecord;
+      const getNextRecord = () => {
+        contract.getRecord(nextRecord, (recordError, recordResult) => {
+          const rec = {
+            id: records.length,
+            listed: recordResult[0],
+            hash: nextRecord,
+            name: recordResult[1],
+            buyPrice: recordResult[2],
+            nextRecord: recordResult[3],
+            previousRecord: recordResult[4],
+            message: recordResult[5],
+            // owner: recordResult[6],
+            // previousOwner: recordResult[7],
+            // value: recordResult[8],
+            // creationDate: recordResult[9],
+            buyPriceETH: window.web3.fromWei(recordResult[2]).toNumber(),
+          };
+          records.push(rec);
+          store.dispatch(actions.ethereum.recordsUpdated({
+            totalRecords,
+            records,
+          }));
+          if (rec.previousRecord !== zeroBytes32) {
+            nextRecord = rec.previousRecord;
+            if (nextRecord === zeroBytes32) {
+              resolve(records);
+            } else {
+              getNextRecord();
+            }
+          } else {
+            resolve(records);
+            // callback(records);
+          }
+        });
+      };
+      contract.recordsCurrentlyListed((listedErr, listedResult) => {
+        totalRecords = listedResult;
+        //store.dispatch(actions.ethereum.recordsCurrentListedUpdated(listedResult));
+        contract.lastRecord((err, result) => {
+          nextRecord = result;
           if (nextRecord === zeroBytes32) {
             resolve(records);
           } else {
             getNextRecord();
           }
-        } else {
-          resolve(records);
-          // callback(records);
-        }
-      });
-    };
-    contract.recordsCurrentlyListed((listedErr, listedResult) => {
-      totalRecords = listedResult;
-      //store.dispatch(actions.ethereum.recordsCurrentListedUpdated(listedResult));
-      contract.lastRecord((err, result) => {
-        nextRecord = result;
-        if (nextRecord === zeroBytes32) {
-          resolve(records);
-        } else {
-          getNextRecord();
-        }
+        });
       });
     });
   });

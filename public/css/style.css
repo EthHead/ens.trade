@@ -10,6 +10,10 @@ h1, h2, h3, h4 {
   color: #182236;
 }
 
+a:link, a:visited, a:active {
+  color: #182236;
+}
+
 input {
   font-family: 'Roboto Mono', monospace;
   width: 100%;

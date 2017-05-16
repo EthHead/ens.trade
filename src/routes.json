@@ -10,7 +10,7 @@
     "chunk": "main"
   },
   {
-    "path": "/record/:name",
+    "path": "/name/:name",
     "page": "./pages/record"
   },
   {

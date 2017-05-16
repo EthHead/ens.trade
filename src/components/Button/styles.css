@@ -29,7 +29,8 @@
   padding: 7px;
   font-size: 14px;
   background-color: white;
-  border: 1px solid black;
+  border: 1px solid #182236;
+  color: #182236;
   box-shadow: 3px 3px 2px #e0e0e0;
   cursor: pointer;
 }

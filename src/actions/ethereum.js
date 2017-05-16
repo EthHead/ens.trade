@@ -13,34 +13,13 @@ export function init() {
   };
 }
 
-export function updateRecordsLive() {
-  let nextRecord;
-  function tryNextRecord(record) {
-    nextRecord = record;
-    // Grab data here
-    if (nextRecord.previousRecord !== zero) {
-      tryNextRecord(nextRecord.previousRecord);
-    } else {
-      return true;
-    }
-  };
-  return {
-    type: 'UPDATE_RECORDS_LIVE',
-    payload: ENSTrade.getLastRecord()
-    .then((record) => {
-      return tryNextRecord(record);
-      // return updateNextRecord(record);
-    })
-  };
-}
-
 export function updateRecords() {
   return {
     type: 'UPDATE_RECORDS',
     payload: ENSTrade.updateRecords()
     .then((records) => {
       // console.log(records);
-      return true;
+      return records;
     }),
   };
 }

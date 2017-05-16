@@ -22,10 +22,11 @@
 
 .namesTable {
   border-collapse: collapse;
+  border-style: hidden;
   font-size: 25px;
 }
 
-.namesTable tbody tr:nth-child(odd) {
+.namesTable tbody tr:nth-child(odd) td:first-child {
   background-color: #f7f7f7;
 }
 
@@ -34,12 +35,15 @@
   width: 50%;
   padding: 10px;
   text-align: right;
-
 }
 
 .namesTable tr td:last-child{
   padding: 10px;
   width: 50%;
+}
+
+.name {
+
 }
 
 .filter {

@@ -5,6 +5,7 @@
 public/dist
 public/index.html
 public/sitemap.xml
+public/records.json
 
 # Node.js and NPM
 node_modules

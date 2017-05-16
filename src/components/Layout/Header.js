@@ -23,7 +23,7 @@ class Header extends React.Component {
 
   submitForm = (e) => {
     e.preventDefault();
-    this.props.dispatch({ redirect: `/record/${this.state.search.split('.')[0]}` });
+    this.props.dispatch({ redirect: `/name/${this.state.search.split('.')[0]}` });
   }
 
   onChange = (e) => {
