@@ -18,7 +18,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...initialState,
         fetching: true,
-        totalRecords: action.payload.totalRecords.toNumber(),
+        totalRecords: action.payload.totalRecords,
         records: action.payload.records,
       };
     }

@@ -10,6 +10,7 @@ import Ethereum from '../../components/Ethereum';
 import * as ENSTrade from '../../components/ENSTrade';
 import OfferForm from '../../components/OfferForm';
 import Address from '../../components/Address';
+import OfferList from '../../components/OfferList';
 // import store from '../store';
 
 const zero = '0x0000000000000000000000000000000000000000';
@@ -36,14 +37,16 @@ class HomePage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const name = nextProps.route.params.name.toLowerCase();
+    const nameHash = window.web3.sha3(name);
     if (!nextProps.ethereum.fetched) return;
-    if (this.state.name !== nextProps.route.params.name.toLowerCase()) {
-      this.setState({ name: nextProps.route.params.name.toLowerCase() });
+    if (this.state.name !== name) {
+      this.setState({ name });
       this.getRecord(nextProps);
     }
     if (nextProps.record.fetched) {
       if (nextProps.offers.fetched || nextProps.offers.fetching || nextProps.offers.fetchingError) return;
-      nextProps.dispatch(actions.ethereum.getOffers(nextProps.record.entry.hash));
+      // nextProps.dispatch(actions.ethereum.getOffers(nameHash));
       return;
     }
     if (nextProps.record.fetching || nextProps.record.fetchingError ) return;
@@ -52,6 +55,7 @@ class HomePage extends React.Component {
 
   getRecord = (props) => {
     props.dispatch(actions.ethereum.getName(props.route.params.name.toLowerCase()));
+    props.dispatch(actions.ethereum.getOffers(props.record.entry.hash));
   }
 
 
@@ -105,90 +109,9 @@ class HomePage extends React.Component {
     // this.props.dispatch(actions.ethereum.reclaim(this.props.record.entry.deedAddress));
   }
 
-  acceptOffer = (offerAddress, offerValue) => {
-    return () => {
-      this.props.dispatch(actions.ethereum.showPopup({
-        to: ENSTrade.getAddress(),
-        value: 0,
-        gas: 200000,
-        data: ethereumjsAbi.simpleEncode(
-          'acceptOffer(bytes32,address,uint256)',
-          this.props.record.entry.hash,
-          offerAddress,
-          offerValue.toString(),
-        ).toString('hex') }));
-      // this.props.dispatch(actions.ethereum.acceptOffer(this.props.record.entry.deedAddress, offerAddress, offerValue));
-    };
-  }
-  cancelOffer = () => {
-    this.props.dispatch(actions.ethereum.showPopup({
-      to: ENSTrade.getAddress(),
-      value: 0,
-      gas: 200000,
-      data: ethereumjsAbi.simpleEncode(
-        'cancelOffer(bytes32)',
-        this.props.record.entry.hash,
-      ).toString('hex') }));
-    // this.props.dispatch(actions.ethereum.cancelOffer(this.props.record.entry.deedAddress));
-  }
-
   isMine = (address) => {
     return true;
     // return address === window.web3.eth.accounts[0];
-  }
-
-  listOffers = () => {
-    if (this.props.offers.fetching) {
-      return (<div>Fetching...</div>);
-    } else if (!this.props.offers.offers.length) {
-      return (<div>No offers yet</div>);
-    }
-    return (
-      <table className={s.offersTable}>
-        <thead>
-          <tr>
-            <td>Amount</td>
-            <td>Address / Message</td>
-            <td />
-          </tr>
-        </thead>
-        <tbody>
-          {this.props.offers.offers.sort(
-            (a, b) => a.value > b.value,
-          ).map(offer =>
-            <tr key={offer.address}>
-              <td className={s.offerAmount}>{window.web3.fromWei(offer.value).toString()} ETH</td>
-              <td className={s.offerInfo}>
-                <div>{Address(offer.address)}</div>
-                  <div>{offer.message}</div>
-              </td>
-              <td>
-                <Button
-                  text="Accept"
-                  sideText=""
-                  onClick={this.acceptOffer(offer.address, offer.value)}
-                  active={this.isMine(this.props.record.previousOwner)}
-                  tip="You must own this name to accept this offer"
-                  activeTip="Accept this offer, instantly claiming the ether and transfering the name"
-                  noBackground
-                />
-              </td>
-              <td>
-                <Button
-                  text="Cancel"
-                  sideText=""
-                  onClick={this.cancelOffer}
-                  active={this.isMine(offer.address)}
-                  tip="You must have placed this offer to cancel it"
-                  activeTip="Cancels this offer and refunds the ether"
-                  noBackground
-                />
-              </td>
-            </tr>,
-          )}
-        </tbody>
-      </table>
-    );
   }
 
   changeBuyPrice = (e) => {
@@ -201,7 +124,7 @@ class HomePage extends React.Component {
   dummyRegister = () => {
     this.props.dispatch(actions.ethereum.showPopup({
       to: Ethereum.getENSAddress(),
-      value: 0,
+      value: 0.01,
       gas: 1000000,
       data: ethereumjsAbi.simpleEncode('fakeBid(bytes32)',
         window.web3.sha3(this.props.route.params.name),
@@ -281,7 +204,10 @@ class HomePage extends React.Component {
             <div className={s.buy}>Buy {this.state.name}.eth instantly for {window.web3.fromWei(this.props.record.record.buyPrice).toString()} ether, or make a custom offer below</div>
             <div>
               <h4>Offers</h4>
-              {this.listOffers()}
+              <OfferList
+                offers={this.props.offers}
+                dispatch={this.props.dispatch}
+              />
             </div>
             <OfferForm hash={this.props.record.entry.hash} buyPrice={window.web3.fromWei(this.props.record.record.buyPrice).toString()}/>
             {this.showInformation()}
@@ -328,7 +254,7 @@ class HomePage extends React.Component {
             </tr>
             <tr>
               <td>Locked Value</td>
-              <td>{this.props.record.value.toString()} (Unlocks {new Date((this.props.record.creationDate * 1000) + lockTime).toString()})</td>
+              <td>{window.web3.fromWei(this.props.record.value).toString()} ether (Unlocks {new Date((this.props.record.creationDate * 1000) + lockTime).toString()})</td>
             </tr>
             <tr>
               <td>Instant Buy Price</td>

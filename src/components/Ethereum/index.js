@@ -23,6 +23,11 @@ const deedAbi = [{"constant":true,"inputs":[],"name":"creationDate","outputs":[{
 ;
 window.deedAbi = deedAbi;
 
+const ensAddresses = {
+  kovan: '0xa88ff9d28e2b361b475410cfe1c2c48190961c30',
+  main: '0x314159265dd8dbb310642f98f50c066173c1259b',
+};
+
 export const errors = {
   invalidNetwork: new Error('Sorry, ENS is not available on this network at the moment.'),
 };
@@ -50,7 +55,9 @@ const ethereum = () => {
         // web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/NEefAs8cNxYfiJsYCQjc"));
         console.log('Loading web3 via infura');
         localWeb3 = false;
-        window.web3 = new Web3(new Web3.providers.HttpProvider(`https://${useNetwork}.infura.io/NEefAs8cNxYfiJsYCQjc`));
+        window.web3 = new Web3();
+        // window.web3 = new Web3(new Web3.providers.HttpProvider('http://52.53.92.185:8545/'));
+        //window.web3 = new Web3(new Web3.providers.HttpProvider(`https://${useNetwork}.infura.io/NEefAs8cNxYfiJsYCQjc`));
         // TODO: ? LocalStore.set('hasNode', false);
       }
       resolve();
@@ -136,6 +143,11 @@ const ethereum = () => {
     });
   }
 
+  function setNetwork(n) {
+    network = n;
+    ensAddress = ensAddresses[n];
+  }
+
   function checkNetwork() {
     return new Promise((resolve, reject) => {
       window.web3.eth.getBlock(0, (e, res) => {
@@ -147,22 +159,18 @@ const ethereum = () => {
         switch (res.hash) {
           case '0x41941023680923e0fe4d74a34bdac8141f2540e3ae90623718e47d66d1ca4a2d':
             network = 'ropsten';
-            ensAddress = '0x112234455c3a32fd11230c42e7bccd4a84e02010';
-            return resolve();
+            return reject(errors.invalidNetwork);
           case '0x6341fd3daf94b748c72ced5a5b26028f2474f5f00d824504e4fa37a75767e177':
             network = 'rinkeby';
-            ensAddress = '0x9b1a5dfe219e43517b150a7eef0d973a8dd9f339';
-            return resolve();
+            return reject(errors.invalidNetwork);
           case '0xa3c565fc15c7478862d50ccd6561e3c06b24cc509bf388941c25ea985ce32cb9':
-            network = 'kovan';
-            ensAddress = '0xaa562c14368f144d3092bdefaaefeaeb24c21df6';
+            setNetwork('kovan');
             return resolve();
           case '0x0cd786a2425d16f152c658316c423e6ce1181e15c3295826d7c9904cba9ce303':
             network = 'morden';
             return reject(errors.invalidNetwork);
           case '0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3':
-            network = 'main';
-            ensAddress = '0x314159265dd8dbb310642f98f50c066173c1259b';
+            setNetwork('main');
             return resolve();
             // return reject(errors.invalidNetwork);
           default:
@@ -264,9 +272,23 @@ const ethereum = () => {
     });
   }
 
+  /*
+  function initEthereum() {
+    if (typeof window.web3 === 'undefined') {
+      // Has local node
+      return checkNetwork();
+    }
+  }
+  */
+
   function initEthereum() {
     if (initialized) return Promise.resolve();
     initialized = true;
+    if (typeof window.web3 === 'undefined') {
+      window.web3 = new Web3();
+      setNetwork('kovan');
+      return Promise.resolve({ network });
+    }
     reportStatus('Connecting to Ethereum network...');
     return initWeb3()
       .then(checkConnection)

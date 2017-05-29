@@ -5,20 +5,16 @@
     "chunk": "main"
   },
   {
-    "path": "/error",
+    "path": "/info/error",
     "page": "./error",
     "chunk": "main"
   },
   {
-    "path": "/name/:name",
+    "path": "/:name",
     "page": "./pages/record"
   },
   {
-    "path": "/about",
+    "path": "/info/about",
     "page": "./pages/about"
-  },
-  {
-    "path": "/tasks/:status(pending|completed)?",
-    "page": "./pages/home"
   }
 ]

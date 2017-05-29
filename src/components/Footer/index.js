@@ -8,7 +8,7 @@ function Footer() {
       <div className="mdl-mini-footer__left-section">
         <div className="mdl-logo">ens.trade</div>
         <ul className="mdl-mini-footer__link-list">
-          <li><Link to="/about">About</Link></li>
+          <li><Link to="/info/about">About</Link></li>
           <li><a href="https://github.com/EthHead/ens.trade/blob/master/public/contracts/ENSTradeHashIndex.sol" target="_blank" rel="noopener noreferrer">Smart Contract</a></li>
           <li><a href="https://www.reddit.com/message/compose/?to=eth-head" target="_blank" rel="noopener noreferrer">Contact</a></li>
         </ul>

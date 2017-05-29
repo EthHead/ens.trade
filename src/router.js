@@ -40,7 +40,7 @@ function matchURI(route, path) {
 // instantiate and return a React component
 function resolve(routes, context) {
   for (const route of routes) { // eslint-disable-line no-restricted-syntax
-    const params = matchURI(route, context.error ? '/error' : context.pathname);
+    const params = matchURI(route, context.error ? '/info/error' : context.pathname);
 
     if (!params) {
       continue; // eslint-disable-line no-continue

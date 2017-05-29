@@ -22,6 +22,10 @@ class HomePage extends React.Component {
     };
   }
 
+  updateRecords() {
+    this.props.dispatch(actions.ethereum.updateRecords());
+  }
+
   componentDidMount() {
     document.title = "ens.trade - Buy and sell ethereum names";
     //if (!Ethereum.initalized) {
@@ -31,7 +35,7 @@ class HomePage extends React.Component {
     window.ENSTrade = ENSTrade;
 
     if (!ENSTrade.getRecords().length) {
-      this.props.dispatch(actions.ethereum.updateRecords());
+      this.updateRecords();
     } else {
       this.sortRecords()();
     }
@@ -40,7 +44,7 @@ class HomePage extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.ethereum.fetched) {
       if (!nextProps.records.fetching && !nextProps.records.fetched && !nextProps.records.fetchingError) {
-        this.props.dispatch(actions.ethereum.updateRecords());
+        this.updateRecords();
       }
     }
     this.sortRecords()();
@@ -105,7 +109,7 @@ class HomePage extends React.Component {
       sortBy: 'id',
       sortDir: 'asc',
     });
-    this.props.dispatch(actions.ethereum.updateRecords());
+    this.updateRecords();
   }
 
   render() {
@@ -166,7 +170,7 @@ class HomePage extends React.Component {
             <tr key={record.hash}>
               <td>
                 <Link
-                  to={`/name/${record.name}`}
+                  to={`/${record.name}`}
                   className={s.name}
                   data-tip
                   data-for={`view${record.name}`}
@@ -180,7 +184,7 @@ class HomePage extends React.Component {
           )}
           {this.showDummyName() ?
             <tr>
-              <td><Link to={`/name/${this.state.filter.split('.')[0]}`}>{this.state.filter.split('.')[0]}.eth</Link></td>
+              <td><Link to={`/${this.state.filter.split('.')[0]}`}>{this.state.filter.split('.')[0]}.eth</Link></td>
               <td>Not for sale</td>
             </tr>
            : null}

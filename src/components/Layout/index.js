@@ -69,6 +69,7 @@ class Layout extends React.Component {
         <div>
           <Header />
           <div className={s.alpha}>ens.trade is currently in alpha. It is only live on the kovan testnet.<br />
+          Names are not official and are only registered with a dummy registrar.<br />
           Found a bug? We are paying a <a href="https://github.com/EthHead/ens.trade/issues" target="_blank" rel="noopener noreferrer">bug bounty!</a></div>
           <main>
             <div {...props} className={cx(s.content, this.props.className)} />

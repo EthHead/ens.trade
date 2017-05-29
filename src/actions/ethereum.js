@@ -14,9 +14,19 @@ export function init() {
 }
 
 export function updateRecords() {
+  if (!Ethereum.isLocalWeb3()) {
+    return {
+      type: 'UPDATE_RECORDS',
+      payload: ENSTrade.getRecordsFromFile()
+      .then((records) => {
+        // console.log(records);
+        return records;
+      }),
+    };
+  }
   return {
     type: 'UPDATE_RECORDS',
-    payload: ENSTrade.updateRecords()
+    payload: ENSTrade.updateRecordsFromEvents()
     .then((records) => {
       // console.log(records);
       return records;
@@ -77,7 +87,7 @@ export function getRecord(hash) {
 export function getOffers(hash) {
   return {
     type: 'FETCH_OFFERS',
-    payload: ENSTrade.getOffers(hash)
+    payload: ENSTrade.getOffersFromEvents(hash)
     .then((result) => {
       return result;
     }),

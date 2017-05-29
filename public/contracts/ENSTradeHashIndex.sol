@@ -45,7 +45,7 @@ contract ENSTrade {
     event TradeComplete(bytes32 indexed hash, address from, address to, uint256 value);
     event OfferCreated(bytes32 indexed hash, address from, uint256 value);
     event OfferCancelled(bytes32 indexed hash, address from);
-    event ListingCreated(bytes32 indexed hash, address from, uint256 buyPrice);
+    event ListingCreated(string indexed name, address from, uint256 buyPrice);
     event ListingRemoved(bytes32 indexed hash, address from);
     event RecordReclaimed(bytes32 indexed hash, address to);
 
@@ -117,7 +117,7 @@ contract ENSTrade {
         lastRecord = _hash;
         recordsCurrentlyListed++;
 
-        ListingCreated(_hash, msg.sender, _buyPrice);
+        ListingCreated(_name, msg.sender, _buyPrice);
     }
 
     function deList(bytes32 _hash) onlyOwner(_hash) {
@@ -239,6 +239,12 @@ contract ENSTrade {
     function getRecord(bytes32 _hash) constant returns(bool, string, uint256, bytes32, bytes32, string) {
         Record r = records[_hash];
         return (r.listed, r.name, r.buyPrice, r.nextRecord, r.previousRecord, r.message);
+    }
+
+    function getDeedInfo(address _deedAddress) constant returns(address, address, uint256, uint256) {
+        // For speed, rather than calling as seperate calls to the registrar
+        Deed d = Deed(_deedAddress);
+        return (d.owner(), d.previousOwner(), d.value(), d.creationDate());
     }
 
     function getFullRecord(bytes32 _hash) constant returns(bool, string, uint256, bytes32, bytes32, string, address, address, uint256, uint256) {

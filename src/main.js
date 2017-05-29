@@ -46,3 +46,8 @@ if (module.hot) {
 }
 
 store.dispatch(actions.ethereum.init());
+/*
+setTimeout(() => {
+  store.dispatch(actions.ethereum.init());
+}, 1);
+*/

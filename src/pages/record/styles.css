@@ -30,28 +30,12 @@
   top: -2px;
 }
 
-.offersTable {
-  border-collapse: collapse;
-}
-
-.offersTable tr td {
-  padding: 0 5px;
-}
-
 .information {
   float: left;
 }
 
 .sellerOptions {
   float: left;
-}
-
-.offersTable tbody tr:nth-child(odd) {
-  background-color: #f7f7f7;
-}
-
-.offerAmount {
-  font-size: 25px;
 }
 
 .dummyRegister {
@@ -96,10 +80,4 @@
   width: 50%;
   padding-left: 10px;
   font-weight: bold;
-}
-
-@media screen and (max-width: 700px) {
-  .offerAmount {
-    font-size: 15px;
-  }
 }

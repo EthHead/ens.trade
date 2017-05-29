@@ -18,6 +18,10 @@
   margin: 10px auto;
 }
 
+.alpha a, .alpha a:link, .alpha a:visited, .alpha a:active {
+  color: #ceeaff
+}
+
 .center {
   text-align: center;
 }

@@ -64,7 +64,7 @@ class OfferForm extends React.Component {
         <label htmlFor="offerValue">Amount (in ether)</label>
         <input id="offerValue" type="number" step="any" value={this.state.offerValue} onChange={this.changeValue} />
         <label htmlFor="offerMessage">Message (optional)</label>
-        <input id="offerMessage" type="text" value={this.state.offerMessage} onChange={this.changeMessage} maxLength={32} />
+        <textarea id="offerMessage" rows={3} type="text" value={this.state.offerMessage} onChange={this.changeMessage} maxLength={120} />
         <div className={s.button}>
           <Button text="Make Offer" type="submit" onClick={this.onSubmit} />
         </div>
